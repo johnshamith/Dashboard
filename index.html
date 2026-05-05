@@ -908,10 +908,21 @@
 <div class="modal-overlay" id="contoModal">
   <div class="modal">
     <div class="modal-header">
-      <h3 id="contoModalTitle">Nuovo movimento Intesa</h3>
+      <h3 id="contoModalTitle">Nuovo movimento</h3>
       <button class="icon-btn" onclick="closeContoModal()" style="font-size:18px">✕</button>
     </div>
     <div class="modal-body">
+      <div class="form-group">
+        <label>Conto</label>
+        <select id="cAccount">
+          <option value="intesa_cc">💙 Intesa CC</option>
+          <option value="intesa_salvadanaio">🐷 Intesa Salvadanaio</option>
+          <option value="fineco">📈 Fineco Trading</option>
+          <option value="revolut">💳 Revolut</option>
+          <option value="trade_republic">🚀 Trade Republic</option>
+          <option value="poste_libretto">📮 Poste Libretto</option>
+        </select>
+      </div>
       <div class="form-group"><label>Data</label><input type="date" id="cDate"></div>
       <div class="form-row">
         <div class="form-group">
@@ -974,8 +985,8 @@ const STORAGE_KEY = 'john_dashboard_v28';
 
 // ETF holdings (aggiornati al 29/04/2026 — prezzi live Yahoo)
 const ETF_HOLDINGS = [
-  { id:'tr-nasdaq', broker:'Trade Republic', name:'iShares Core NASDAQ 100 UCITS ETF Acc', isin:'IE00B53SZB19', yahoo:'CSNDX.MI', shares:0.295154, avgPrice:1186.50, lastPrice:1313.83 },
-  { id:'tr-world', broker:'Trade Republic', name:'iShares Core MSCI World UCITS ETF USD Acc', isin:'IE00B4L5Y983', yahoo:'SWDA.MI', shares:1.344891, avgPrice:111.71, lastPrice:116.56 },
+  { id:'tr-nasdaq', broker:'Trade Republic', name:'iShares Core NASDAQ 100 UCITS ETF Acc', isin:'IE00B53SZB19', yahoo:'CSNDX.MI', shares:0.428352, avgPrice:1226.09, lastPrice:1313.83 },
+  { id:'tr-world', broker:'Trade Republic', name:'iShares Core MSCI World UCITS ETF USD Acc', isin:'IE00B4L5Y983', yahoo:'SWDA.MI', shares:1.988336, avgPrice:113.28, lastPrice:116.56 },
   { id:'intesa-eurizon1', broker:'Intesa', gestore:'papa', name:'Eurizon META G Team 1 Cumulativo', isin:'IT0004427628', yahoo:null, shares:461.463, avgPrice:6.482, lastPrice:6.658 },
   { id:'intesa-eurizon2', broker:'Intesa', gestore:'papa', name:'Eurizon Manager Selection Fund MS 20 R', isin:'LU0256012468', yahoo:null, shares:11.64, avgPrice:160.805987, lastPrice:172.91 },
   { id:'intesa-pensione', broker:'Intesa', gestore:'papa', name:'Fondo Pensione Il Mio Domani', isin:null, yahoo:null, shares:null, avgPrice:null, lastPrice:394.91, fixedValue:394.91 },
@@ -1012,17 +1023,17 @@ const MANUAL_TECH_BIAS = {
 };
 
 const PAC_LIST = [
-  { broker:'Trade Republic', etf:'iShares NASDAQ 100', amount:175, frequency:'mensile', nextDate:'2026-05-04' },
-  { broker:'Trade Republic', etf:'iShares MSCI World', amount:75, frequency:'mensile', nextDate:'2026-05-04' },
+  { broker:'Trade Republic', etf:'iShares NASDAQ 100', amount:175, frequency:'mensile', nextDate:'2026-06-04' },
+  { broker:'Trade Republic', etf:'iShares MSCI World', amount:75, frequency:'mensile', nextDate:'2026-06-04' },
 ];
 
 // Cash balances (saldi liquidi reali — aggiornati 29/04/2026 da John)
 const CASH_BALANCES = {
-  fineco_trading: 562.15,      // saldo reale Fineco 29/04
-  intesa_cc: 12.02,            // saldo reale CC Intesa 29/04
-  intesa_salvadanaio: 3537.98, // saldo reale Salvadanaio 29/04 (post multa €62.60)
+  fineco_trading: 583.47,      // saldo reale Fineco 29/04
+  intesa_cc: 167.72,            // saldo reale CC Intesa 29/04
+  intesa_salvadanaio: 4137.98, // saldo reale Salvadanaio 29/04 (post multa €62.60)
   poste_libretto: 576.51,
-  revolut_saldo: 221.74,       // Estratto conto Revolut 28/04/2026
+  revolut_saldo: 206.53,       // Estratto conto Revolut 28/04/2026
   poste_buoni: 35131.44,       // Buoni Postali (liquidità vincolata a scadenza)
 };
 
@@ -1486,6 +1497,31 @@ const SEED_FOREX = [
     "amount": -8.54,
     "risk": 30,
     "notes": "T8 EURUSD intraday LONG (1.1687→1.1697) – chiuso subito"
+  }
+  ,
+  {
+    "id": "may_01",
+    "date": "2026-05-01",
+    "type": "trade",
+    "instrument": "EURUSD",
+    "category": "intraday",
+    "strategy": "step1",
+    "outcome": "win",
+    "amount": 27.99,
+    "risk": 30,
+    "notes": "T9 EURUSD intraday WIN ✓ — primo trade vincente! Disciplina + pazienza"
+  },
+  {
+    "id": "may_02",
+    "date": "2026-05-04",
+    "type": "trade",
+    "instrument": "EURUSD",
+    "category": "intraday",
+    "strategy": "step1",
+    "outcome": "loss",
+    "amount": -6.67,
+    "risk": 30,
+    "notes": "T10 EURUSD intraday — chiuso piccola perdita"
   }
 ];
 // Ora a 0: le vendite ETF del 20 e 23 aprile sono già nelle entries come deposit
@@ -3225,16 +3261,44 @@ const SEED_INTESA = [
   {
     "id": "intesa_seed_243",
     "date": "2026-04-28",
-    "amount": -60,
-    "category": "salvadanaio_out",
-    "desc": "Prelievo Salvadanaio (multa sosta)"
+    "amount": 60,
+    "category": "salvadanaio_in",
+    "desc": "Movimento Salvadanaio (prelievo per multa)"
   },
   {
     "id": "intesa_seed_244",
     "date": "2026-04-29",
     "amount": -62.60,
+    "category": "altro",
+    "desc": "Multa Comune di Brescia (sosta marciapiede pulizia strada)"
+  }
+  ,{
+    "id": "intesa_seed_245",
+    "date": "2026-05-04",
+    "amount": 1032.09,
+    "category": "pensione",
+    "desc": "Pensione INPS maggio 2026"
+  },
+  {
+    "id": "intesa_seed_246",
+    "date": "2026-05-04",
+    "amount": -250,
+    "category": "bonifico_out",
+    "desc": "Ricarica Revolut (per top-up Trade Republic)"
+  },
+  {
+    "id": "intesa_seed_247",
+    "date": "2026-05-04",
+    "amount": -600,
     "category": "salvadanaio_out",
-    "desc": "Prelievo Salvadanaio (multa parcheggio sosta)"
+    "desc": "Accantonamento Salvadanaio (mensile)"
+  },
+  {
+    "id": "intesa_seed_248",
+    "date": "2026-05-05",
+    "amount": -26.39,
+    "category": "abbonamento",
+    "desc": "Premio Polizza Intesa"
   }
 ];
 
@@ -3286,7 +3350,7 @@ function saveState(){ try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(stat
 //   - amount negativo su conto → intesa_cc += amount (diminuisce)
 //   - salvadanaio_in (negativo su cc) → intesa_salvadanaio += |amount|
 //   - salvadanaio_out (positivo su cc) → intesa_salvadanaio -= |amount|
-const SEED_INTESA_CUTOFF_DATE = '2026-04-29'; // saldi base aggiornati al 29/04 — transazioni successive sono live
+const SEED_INTESA_CUTOFF_DATE = '2026-05-05'; // saldi base aggiornati al 29/04 — transazioni successive sono live
 function getLiveCashBalances(){
   // PARTO SEMPRE dai CASH_BALANCES iniziali (non da state.cash per evitare loop)
   const liveCash = {...CASH_BALANCES};
@@ -3707,7 +3771,7 @@ function toggleAbbonCard(){
 const ABBONAMENTI = [
   { nome:'TIM TIMVISION Full',    importo:42.99, frequenza:'mensile',  giorno:12, categoria:'Streaming', icon:'tim',         note:'DAZN+Netflix+Disney+Prime+HBOX+Infinity inclusi. Iniziato feb 2026' },
   { nome:'TradingView Essential', importo:9.09,  frequenza:'annuale',  giorno:22, categoria:'Trading',   icon:'tradingview', note:'€109,07 pagato 22/04/2026. Prossimo rinnovo apr 2027' },
-  { nome:'Claude.ai Pro',         importo:21.96, frequenza:'mensile',  giorno:24, categoria:'AI',        icon:'claude',      note:'Piano Pro mensile' },
+  { nome:'OpenRouter (Opus 4.7)', importo:5.00,  frequenza:'mensile',  giorno:1,  categoria:'AI',        icon:'openrouter',  note:'Pay-per-use ~€0.10-0.20/giorno (variabile, max ~€10/mese)' },
   { nome:'Bitdefender',           importo:7.49,  frequenza:'mensile',  giorno:24, categoria:'Software',  icon:'bitdefender', note:'Antivirus' },
   { nome:'Spotify',               importo:7.00,  frequenza:'mensile',  giorno:5,  categoria:'Musica',    icon:'spotify',     note:'Quota nibba + ragazza (3,5+3,5)' },
   { nome:'Crunchyroll Fan',       importo:2.99,  frequenza:'mensile',  giorno:1,  categoria:'Streaming', icon:'crunchyroll', note:'Promo 3 mesi a €2,99, poi €5,99/mese' },
@@ -3718,6 +3782,8 @@ const ABBON_LOGOS = {
   tim:         `<div style="width:36px;height:36px;background:#0066FF;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;color:white;letter-spacing:-0.5px;box-shadow:0 2px 6px rgba(0,102,255,0.3)">TIM</div>`,
   tradingview: `<div style="width:36px;height:36px;background:#131722;border-radius:8px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(0,0,0,0.4)"><svg width="22" height="22" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path d="M2 4h28v6H20v18h-8V10H2V4z" fill="#2962FF"/><circle cx="24" cy="20" r="6" fill="#FF1744"/></svg></div>`,
   claude:      `<div style="width:36px;height:36px;background:#181818;border-radius:8px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(0,0,0,0.4)"><svg width="22" height="22" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M5.5 19.5L9.6 9h2l4.1 10.5h-2.2l-.95-2.6h-3.9l-.95 2.6H5.5zm4.05-4.4h2.6L10.85 11l-1.3 4.1z" fill="#D97757"/><path d="M14 19.5l4.1-10.5h2L16 19.5h-2z" fill="#D97757"/></svg></div>`,
+  openrouter:  `<div style="width:36px;height:36px;background:linear-gradient(135deg,#6e56cf,#9d8df0);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:900;color:white;box-shadow:0 2px 6px rgba(110,86,207,0.4)">OR</div>`,
+  custom:      `<div style="width:36px;height:36px;background:linear-gradient(135deg,var(--accent),var(--blue));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;color:white;box-shadow:0 2px 6px rgba(0,212,255,0.3)">💳</div>`,
   bitdefender: `<div style="width:36px;height:36px;background:#ED1C24;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;color:white;box-shadow:0 2px 6px rgba(237,28,36,0.3)">B</div>`,
   spotify:     `<div style="width:36px;height:36px;background:#1DB954;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(29,185,84,0.4)"><svg width="22" height="22" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="white"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.59 14.42c-.18.3-.57.39-.87.21-2.4-1.47-5.43-1.8-9-.99-.34.08-.68-.13-.76-.47-.08-.34.13-.68.47-.76 3.91-.89 7.27-.51 9.96 1.14.3.18.39.57.2.87zm1.22-2.72c-.23.37-.71.49-1.08.26-2.75-1.69-6.94-2.18-10.19-1.19-.41.13-.85-.11-.97-.51-.13-.41.11-.85.51-.97 3.72-1.13 8.34-.58 11.49 1.34.37.22.49.71.24 1.07zm.11-2.83C14.66 8.92 9.42 8.74 6.36 9.67c-.5.15-1.02-.13-1.17-.62-.15-.5.13-1.02.62-1.17 3.52-1.07 9.31-.86 12.99 1.32.45.27.6.85.33 1.3-.27.45-.85.6-1.3.33z"/></svg></div>`,
   crunchyroll: `<div style="width:36px;height:36px;background:#F47521;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(244,117,33,0.4)"><svg width="22" height="22" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="white"><path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zm0 22C6.48 22 2 17.52 2 12c0-5.18 3.95-9.45 9-9.95v3.02c-3.39.49-6 3.4-6 6.93 0 3.87 3.13 7 7 7 3.53 0 6.44-2.61 6.93-6h3.02c-.5 5.05-4.77 9-9.95 9z"/></svg></div>`,
@@ -3916,11 +3982,22 @@ function renderBrain(){
 
   // Movimenti del mese corrente
   const curMonthEntries = state.intesa.entries.filter(e => e.date >= startMonth);
-  const monthIncome = curMonthEntries.filter(e => e.amount > 0 && e.category !== 'salvadanaio_out').reduce((a,e)=>a+e.amount,0);
+  // INCOME: solo entrate vere (pensione, stipendio, bonifici in da terzi)
+  // Escludo salvadanaio_in (è un rientro dai miei stessi soldi accantonati, non reddito nuovo)
+  const monthIncome = curMonthEntries
+    .filter(e => e.amount > 0)
+    .filter(e => e.category !== 'salvadanaio_in')
+    .reduce((a,e)=>a+e.amount,0);
+  // EXPENSES: solo SPESE VERE — escludo trasferimenti tra miei conti e accantonamenti
+  // I "risparmi" includono: salvadanaio_out (accantono) e bonifico_out a miei conti (Revolut/TR)
   const monthExpenses = curMonthEntries
     .filter(e => e.amount < 0)
-    .filter(e => e.category !== 'salvadanaio_in') // accantonamento non è una spesa
+    .filter(e => e.category !== 'salvadanaio_out')   // accantonamento NON è spesa, è risparmio
+    .filter(e => e.category !== 'salvadanaio_in')    // (mai presente con amount<0, ma per sicurezza)
+    .filter(e => e.category !== 'bonifico_out')      // bonifico a miei altri conti (Revolut/TR) NON è spesa
+    .filter(e => e.category !== 'investimento')      // PAC/ETF NON è spesa, è investimento (capitale tuo)
     .reduce((a,e)=>a+Math.abs(e.amount),0);
+  // RISPARMIATO = entrate - spese vere (i soldi messi nel salvadanaio o investiti contano come risparmio)
   const monthSaving = monthIncome - monthExpenses;
   const savingPct = monthIncome > 0 ? (monthSaving/monthIncome*100) : 0;
 
@@ -5718,12 +5795,13 @@ function setEtfRange(r, btn){
 let editingContoId = null;
 function openContoModal(){
   editingContoId = null;
-  document.getElementById('contoModalTitle').textContent = 'Nuovo movimento Intesa';
+  document.getElementById('contoModalTitle').textContent = 'Nuovo movimento';
   document.getElementById('cDate').value = new Date().toISOString().slice(0,10);
   document.getElementById('cType').value = 'uscita';
   document.getElementById('cAmount').value = '';
   document.getElementById('cCategory').value = 'ristoranti';
   document.getElementById('cDesc').value = '';
+  document.getElementById('cAccount').value = 'intesa_cc';
   document.getElementById('contoModal').classList.add('open');
 }
 function closeContoModal(){
@@ -5736,6 +5814,7 @@ function saveContoEntry(){
   const amtRaw = parseFloat(document.getElementById('cAmount').value);
   const cat = document.getElementById('cCategory').value;
   const desc = document.getElementById('cDesc').value.trim();
+  const account = document.getElementById('cAccount').value;
 
   if(!date){toast('Data obbligatoria');return;}
   if(isNaN(amtRaw) || amtRaw<=0){toast('Importo obbligatorio');return;}
@@ -5744,22 +5823,45 @@ function saveContoEntry(){
   // Applico segno in base al tipo (uscita=negativo, entrata=positivo)
   const amt = type==='entrata' ? Math.abs(amtRaw) : -Math.abs(amtRaw);
 
-  const entry = {
-    id: editingContoId || genId(),
-    date, amount: amt, category: cat, desc
-  };
-
   if(editingContoId){
+    // Edit di transazione esistente Intesa
+    const entry = { id: editingContoId, date, amount: amt, category: cat, desc };
     const idx = state.intesa.entries.findIndex(e=>e.id===editingContoId);
     if(idx>=0) state.intesa.entries[idx] = entry;
     toast('Aggiornato');
   } else {
-    state.intesa.entries.push(entry);
-    toast('Aggiunto');
+    // Nuovo movimento
+    if(account === 'intesa_cc' || account === 'intesa_salvadanaio'){
+      // Intesa: aggiungo alla lista entries (ha tutto lo storico)
+      const entry = { id: genId(), date, amount: amt, category: cat, desc, account };
+      state.intesa.entries.push(entry);
+      // Aggiorno il saldo del conto specifico
+      if(account === 'intesa_cc') state.cash.intesa_cc = (state.cash.intesa_cc||0) + amt;
+      else state.cash.intesa_salvadanaio = (state.cash.intesa_salvadanaio||0) + amt;
+    } else {
+      // Altri conti: aggiorno solo il saldo (no storico singole transazioni)
+      const accountMap = {
+        fineco: 'fineco_trading',
+        revolut: 'revolut_saldo',
+        trade_republic: 'fineco_trading',  // TR top-up tracciato come Fineco per ora
+        poste_libretto: 'poste_libretto'
+      };
+      const cashKey = accountMap[account];
+      if(cashKey === 'fineco_trading' && account === 'trade_republic'){
+        // TR: aumenta valore ETF (deposito virtuale)
+        toast('Per TR usa il PAC mensile o aggiorna manualmente le quote ETF');
+        return;
+      }
+      if(cashKey){
+        state.cash[cashKey] = (state.cash[cashKey]||0) + amt;
+        toast(`Saldo ${account} aggiornato: ${amt>0?'+':''}€${amt.toFixed(2)}`);
+      }
+    }
   }
   saveState();
   closeContoModal();
-  renderConto();
+  renderConto && renderConto();
+  renderPatrimonio && renderPatrimonio();
 }
 function editContoEntry(id){
   const e = state.intesa.entries.find(x=>x.id===id);
