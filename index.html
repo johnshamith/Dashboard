@@ -6644,17 +6644,231 @@ function saveManualPrices(){
   renderActiveView();
   toast(`${updated} prezz${updated===1?'o aggiornato':'i aggiornati'}`);
 }
+
 // ============================================================
-// FIREBASE SYNC — RIMOSSO (uso solo localStorage + Export/Import JSON)
+// FIREBASE SYNC (sincronizzazione automatica telefono/PC)
 // ============================================================
-// Stub vuoti per evitare errori se qualcosa li chiama
-function firebaseSync(){}
-function loginWithGoogle(){ alert('Login disabilitato. Usa Export/Import JSON (frecce ↑↓ in alto) per backup.'); }
-function logoutFromGoogle(){}
-function showLoginScreen(){}
-function hideLoginScreen(){}
-function showUserBadge(){}
-function updateSyncBadge(){}
+const FIREBASE_CONFIG = {
+  apiKey: "AIzaSyA2sJzLs5I3uX12Bu8WnWww-5e1KmJsd00",
+  authDomain: "john-financialdashboard.firebaseapp.com",
+  projectId: "john-financialdashboard",
+  storageBucket: "john-financialdashboard.firebasestorage.app",
+  messagingSenderId: "627260288455",
+  appId: "1:627260288455:web:e9ae5847f9dc60de2fbde2"
+};
+const FIREBASE_DOC_ID = 'main'; // un singolo documento che contiene tutto lo state
+
+let firebaseDb = null;
+let firebaseAuth = null;
+let firebaseUser = null;
+let firebaseReady = false;
+let firebaseSyncDebounce = null;
+let lastRemoteSync = 0;
+let firebaseSyncStatus = 'idle';
+
+async function initFirebase(){
+  try{
+    const { initializeApp } = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js');
+    const { getFirestore, doc, setDoc, getDoc, onSnapshot } = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js');
+    const { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js');
+
+    const app = initializeApp(FIREBASE_CONFIG);
+    firebaseDb = getFirestore(app);
+    firebaseAuth = getAuth(app);
+    window._fb = { doc, setDoc, getDoc, onSnapshot, GoogleAuthProvider, signInWithPopup, signOut };
+
+    // Listener stato auth — si triggera al refresh e dopo login/logout
+    onAuthStateChanged(firebaseAuth, async (user) => {
+      if(user){
+        // Utente loggato
+        firebaseUser = user;
+        firebaseReady = true;
+        hideLoginScreen();
+        showUserBadge(user);
+        updateSyncBadge('ok', '🟢 Connesso');
+        await firebasePull();
+        startFirestoreListener();
+        renderActiveView();
+        console.log('Firebase ready (logged in):', user.email);
+      } else {
+        // Non loggato → mostro schermata login
+        firebaseUser = null;
+        firebaseReady = false;
+        showLoginScreen();
+        updateSyncBadge('idle', '🔓 Non loggato');
+      }
+    });
+
+    console.log('Firebase auth listener active');
+  } catch(e){
+    console.warn('Firebase init failed:', e);
+    updateSyncBadge('error', '⚠️ Offline');
+  }
+}
+
+let firestoreUnsubscribe = null;
+function startFirestoreListener(){
+  if(firestoreUnsubscribe) firestoreUnsubscribe();
+  if(!firebaseUser) return;
+  const docRef = window._fb.doc(firebaseDb, 'dashboards', firebaseUser.uid);
+  firestoreUnsubscribe = window._fb.onSnapshot(docRef, (snap)=>{
+    const now = Date.now();
+    if(now - lastRemoteSync < 2000) return;
+    if(snap.exists()){
+      const remoteData = snap.data();
+      if(remoteData._updatedAt && remoteData._updatedAt > (state._updatedAt||0)){
+        state = remoteData;
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        renderActiveView();
+        updateSyncBadge('ok', '🔄 Aggiornato');
+      }
+    }
+  });
+}
+
+async function loginWithGoogle(){
+  try{
+    const provider = new window._fb.GoogleAuthProvider();
+    await window._fb.signInWithPopup(firebaseAuth, provider);
+    // onAuthStateChanged gestirà il resto
+  } catch(e){
+    console.error('Login failed:', e);
+    if(e.code === 'auth/popup-closed-by-user'){
+      // Utente ha chiuso il popup, niente di grave
+    } else if(e.code === 'auth/operation-not-allowed'){
+      alert('Errore: Google Auth non attivato su Firebase Console.\n\nVai su Firebase → Authentication → Sign-in method → attiva Google.');
+    } else {
+      alert('Errore login: ' + e.message);
+    }
+  }
+}
+
+async function logoutFromGoogle(){
+  if(!confirm('Vuoi fare logout? Dovrai ri-loggarti per accedere al dashboard.')) return;
+  try{
+    await window._fb.signOut(firebaseAuth);
+  } catch(e){ console.error('Logout failed:', e); }
+}
+
+function showLoginScreen(){
+  // Nascondo dashboard
+  const shell = document.querySelector('.shell');
+  if(shell) shell.style.display = 'none';
+
+  // Mostro schermata login
+  let loginEl = document.getElementById('loginScreen');
+  if(!loginEl){
+    loginEl = document.createElement('div');
+    loginEl.id = 'loginScreen';
+    loginEl.innerHTML = `
+      <div class="login-box">
+        <div class="login-logo">🔐</div>
+        <h1>Financial Dashboard</h1>
+        <p>Accedi con il tuo account Google per visualizzare il dashboard.</p>
+        <button class="login-btn" onclick="loginWithGoogle()">
+          <svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.64-.06-1.25-.16-1.84H9v3.48h4.84c-.21 1.13-.84 2.08-1.79 2.72v2.26h2.9c1.7-1.56 2.69-3.86 2.69-6.62z"/><path fill="#34A853" d="M9 18c2.43 0 4.47-.81 5.96-2.18l-2.9-2.26c-.8.54-1.83.86-3.06.86-2.35 0-4.34-1.59-5.05-3.72H.96v2.33C2.44 15.98 5.48 18 9 18z"/><path fill="#FBBC05" d="M3.95 10.7c-.18-.54-.28-1.12-.28-1.7s.1-1.16.28-1.7V4.96H.96C.35 6.18 0 7.55 0 9s.35 2.82.96 4.04l2.99-2.34z"/><path fill="#EA4335" d="M9 3.58c1.32 0 2.51.45 3.44 1.35l2.58-2.58C13.46.89 11.43 0 9 0 5.48 0 2.44 2.02.96 4.96l2.99 2.34C4.66 5.17 6.65 3.58 9 3.58z"/></svg>
+          Accedi con Google
+        </button>
+        <div class="login-footer">
+          <small>I tuoi dati restano privati e accessibili solo a te.</small>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(loginEl);
+  }
+  loginEl.style.display = 'flex';
+}
+
+function hideLoginScreen(){
+  const loginEl = document.getElementById('loginScreen');
+  if(loginEl) loginEl.style.display = 'none';
+  const shell = document.querySelector('.shell');
+  if(shell) shell.style.display = '';
+}
+
+function showUserBadge(user){
+  // Aggiungo nome utente Google + bottone logout nella topbar
+  const topActions = document.querySelector('.top-actions');
+  if(!topActions) return;
+  let userBadge = document.getElementById('userBadge');
+  if(!userBadge){
+    userBadge = document.createElement('span');
+    userBadge.id = 'userBadge';
+    userBadge.className = 'user-badge';
+    userBadge.title = 'Click per logout';
+    userBadge.onclick = logoutFromGoogle;
+    topActions.insertBefore(userBadge, topActions.firstChild);
+  }
+  const photo = user.photoURL ? `<img src="${user.photoURL}" alt="">` : '👤';
+  userBadge.innerHTML = `${photo}<span class="user-email">${user.email}</span>`;
+}
+
+async function firebasePull(){
+  if(!firebaseReady || !firebaseUser) return;
+  try{
+    // Uso UID utente come ID documento (separazione per utente)
+    const docId = firebaseUser.uid;
+    const docRef = window._fb.doc(firebaseDb, 'dashboards', docId);
+    const snap = await window._fb.getDoc(docRef);
+    if(snap.exists()){
+      const remote = snap.data();
+      if(remote._updatedAt && remote._updatedAt > (state._updatedAt||0)){
+        state = remote;
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        renderActiveView();
+        toast('Dati sincronizzati dal cloud');
+      } else if(!remote._updatedAt || remote._updatedAt < (state._updatedAt||0)){
+        await firebasePushNow();
+      }
+    } else {
+      // Primo login: provo a leggere documento legacy 'main' e migrarlo
+      const legacyRef = window._fb.doc(firebaseDb, 'dashboards', 'main');
+      const legacySnap = await window._fb.getDoc(legacyRef);
+      if(legacySnap.exists()){
+        const legacy = legacySnap.data();
+        if(legacy._updatedAt && legacy._updatedAt > (state._updatedAt||0)){
+          state = legacy;
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+          renderActiveView();
+          toast('Dati migrati dal cloud (legacy)');
+        }
+      }
+      // In ogni caso, primo push verso documento utente
+      await firebasePushNow();
+    }
+  } catch(e){ console.warn('Pull failed:', e); }
+}
+
+async function firebasePushNow(){
+  if(!firebaseReady || !firebaseUser) return;
+  try{
+    updateSyncBadge('syncing', '⏳ Sync...');
+    const payload = {...state, _updatedAt: Date.now(), _userId: firebaseUser.uid};
+    const docId = firebaseUser.uid;
+    const docRef = window._fb.doc(firebaseDb, 'dashboards', docId);
+    await window._fb.setDoc(docRef, payload);
+    lastRemoteSync = Date.now();
+    state._updatedAt = payload._updatedAt;
+    updateSyncBadge('ok', '🟢 Sincronizzato');
+  } catch(e){
+    console.warn('Push failed:', e);
+    updateSyncBadge('error', '⚠️ Errore sync');
+  }
+}
+
+function firebaseSync(){
+  if(!firebaseReady || !firebaseUser) return;
+  clearTimeout(firebaseSyncDebounce);
+  firebaseSyncDebounce = setTimeout(firebasePushNow, 1500);
+}
+
+function updateSyncBadge(status, text){
+  firebaseSyncStatus = status;
+  const badge = document.getElementById('syncBadge');
+  if(!badge) return;
+  badge.textContent = text;
+  badge.className = 'sync-badge sync-'+status;
+}
 
 
 // ============================================================
@@ -7714,10 +7928,8 @@ if(state.calendarCollapsed){
 // Avvio auto-refresh calendario (indicatore ORA ogni 30s)
 setTimeout(startCalendarAutoRefresh, 5000);
 
-// Inizializza Firebase per sync automatica telefono/PC
-// DISABILITATO — uso solo localStorage + Export/Import JSON manuale (frecce ↑↓)
-// Per riattivare, decommentare la riga sotto:
-// initFirebase();
+// Inizializza Firebase per sync automatica telefono/PC + Login Google
+initFirebase();
 
 // Auto-refresh prezzi ETF ogni 5 minuti se disponibile (Yahoo Finance)
 let priceAutoRefreshInterval = null;
