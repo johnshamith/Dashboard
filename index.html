@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="it">
 <head>
 <meta charset="UTF-8">
@@ -32,378 +33,379 @@
   .mono{font-family:'JetBrains Mono',monospace;font-variant-numeric:tabular-nums;letter-spacing:-0.01em}
   .shell{max-width:1480px;margin:0 auto;padding:16px;position:relative;z-index:1}
 
-  /* Topbar */
-  .topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;padding:12px 16px;background:linear-gradient(180deg,var(--bg-2),var(--bg-1));border:1px solid var(--border);border-radius:14px;flex-wrap:wrap;gap:12px}
-  .profile{display:flex;align-items:center;gap:14px;min-width:0}
-  .avatar{width:44px;height:44px;border-radius:50%;background:#a5b4fc;border:2px solid var(--accent);overflow:hidden;flex-shrink:0;box-shadow:0 0 0 3px rgba(41,98,255,0.15)}
-  .avatar img{width:100%;height:100%;object-fit:cover;display:block}
-  .profile-info h1{font-size:15px;font-weight:600;margin-bottom:2px;display:flex;align-items:center;gap:8px}
-  .profile-info .status{display:inline-flex;align-items:center;gap:5px;font-size:10.5px;color:var(--green);background:var(--green-soft);padding:2px 8px;border-radius:20px;border:1px solid var(--green-border);font-weight:500}
-  .status-dot{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);animation:pulse 2s infinite}
-  @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.5}}
-  .profile-info .meta{font-size:11.5px;color:var(--text-dim)}
-  .top-actions{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
-  .btn{background:var(--bg-3);border:1px solid var(--border-2);color:var(--text);padding:8px 14px;border-radius:8px;font-family:inherit;font-size:12px;font-weight:500;cursor:pointer;transition:all .15s;display:inline-flex;align-items:center;gap:6px}
-  .btn:hover{background:var(--bg-hover);border-color:var(--border-strong)}
-  .btn.primary{background:var(--accent);color:#fff;border-color:var(--accent);font-weight:600;box-shadow:0 0 20px rgba(41,98,255,0.3)}
-  .btn.primary:hover{background:#1e4dc7}
-  .btn.icon-only{padding:8px 10px}
+/* Topbar */
+.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;padding:12px 16px;background:linear-gradient(180deg,var(–bg-2),var(–bg-1));border:1px solid var(–border);border-radius:14px;flex-wrap:wrap;gap:12px}
+.profile{display:flex;align-items:center;gap:14px;min-width:0}
+.avatar{width:44px;height:44px;border-radius:50%;background:#a5b4fc;border:2px solid var(–accent);overflow:hidden;flex-shrink:0;box-shadow:0 0 0 3px rgba(41,98,255,0.15)}
+.avatar img{width:100%;height:100%;object-fit:cover;display:block}
+.profile-info h1{font-size:15px;font-weight:600;margin-bottom:2px;display:flex;align-items:center;gap:8px}
+.profile-info .status{display:inline-flex;align-items:center;gap:5px;font-size:10.5px;color:var(–green);background:var(–green-soft);padding:2px 8px;border-radius:20px;border:1px solid var(–green-border);font-weight:500}
+.status-dot{width:6px;height:6px;border-radius:50%;background:var(–green);box-shadow:0 0 8px var(–green);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.5}}
+.profile-info .meta{font-size:11.5px;color:var(–text-dim)}
+.top-actions{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.btn{background:var(–bg-3);border:1px solid var(–border-2);color:var(–text);padding:8px 14px;border-radius:8px;font-family:inherit;font-size:12px;font-weight:500;cursor:pointer;transition:all .15s;display:inline-flex;align-items:center;gap:6px}
+.btn:hover{background:var(–bg-hover);border-color:var(–border-strong)}
+.btn.primary{background:var(–accent);color:#fff;border-color:var(–accent);font-weight:600;box-shadow:0 0 20px rgba(41,98,255,0.3)}
+.btn.primary:hover{background:#1e4dc7}
+.btn.icon-only{padding:8px 10px}
 
-  /* Tabs */
-  .tabs{display:flex;gap:4px;margin-bottom:16px;background:var(--bg-1);padding:6px;border-radius:14px;border:1px solid var(--border);overflow-x:auto}
-  .tab{background:transparent;border:none;color:var(--text-dim);padding:10px 18px;font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;border-radius:10px;display:flex;align-items:center;gap:8px;white-space:nowrap;transition:all .15s;flex:1;justify-content:center;min-width:120px}
-  .tab:hover{color:var(--text)}
-  .tab.active{background:var(--bg-3);color:var(--text);box-shadow:0 0 0 1px var(--border-strong)}
-  .tab .ico{font-size:14px;line-height:1}
-  .tab .label-full{display:inline}
-  @media(max-width:700px){.tab{padding:9px 10px;font-size:11.5px;min-width:0}.tab .label-full{display:none}.tab .ico{font-size:16px}}
+/* Tabs */
+.tabs{display:flex;gap:4px;margin-bottom:16px;background:var(–bg-1);padding:6px;border-radius:14px;border:1px solid var(–border);overflow-x:auto}
+.tab{background:transparent;border:none;color:var(–text-dim);padding:10px 18px;font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;border-radius:10px;display:flex;align-items:center;gap:8px;white-space:nowrap;transition:all .15s;flex:1;justify-content:center;min-width:120px}
+.tab:hover{color:var(–text)}
+.tab.active{background:var(–bg-3);color:var(–text);box-shadow:0 0 0 1px var(–border-strong)}
+.tab .ico{font-size:14px;line-height:1}
+.tab .label-full{display:inline}
+@media(max-width:700px){.tab{padding:9px 10px;font-size:11.5px;min-width:0}.tab .label-full{display:none}.tab .ico{font-size:16px}}
 
-  .view{display:none}
-  .view.active{display:block}
+.view{display:none}
+.view.active{display:block}
 
-  /* KPI */
-  .kpi-grid{display:grid;gap:12px;margin-bottom:16px}
-  .grid-4{grid-template-columns:1.3fr repeat(4,1fr)}
-  .grid-3{grid-template-columns:1.3fr 1fr 1fr}
-  .grid-5{grid-template-columns:1.3fr repeat(4,1fr)}
-  @media(max-width:1100px){.grid-4,.grid-5{grid-template-columns:repeat(2,1fr)}.grid-3{grid-template-columns:1fr}}
-  @media(max-width:500px){.grid-4,.grid-5,.grid-3{grid-template-columns:1fr 1fr}}
+/* KPI */
+.kpi-grid{display:grid;gap:12px;margin-bottom:16px}
+.grid-4{grid-template-columns:1.3fr repeat(4,1fr)}
+.grid-3{grid-template-columns:1.3fr 1fr 1fr}
+.grid-5{grid-template-columns:1.3fr repeat(4,1fr)}
+@media(max-width:1100px){.grid-4,.grid-5{grid-template-columns:repeat(2,1fr)}.grid-3{grid-template-columns:1fr}}
+@media(max-width:500px){.grid-4,.grid-5,.grid-3{grid-template-columns:1fr 1fr}}
 
-  .kpi{background:linear-gradient(180deg,var(--bg-2),var(--bg-1));border:1px solid var(--border);border-radius:14px;padding:16px 18px;position:relative;overflow:hidden}
-  .kpi.hero{padding:20px 24px}
-  .kpi-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px}
-  .kpi .label{font-size:10.5px;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.1em;font-weight:600}
-  .kpi .badge{font-size:10px;padding:2px 8px;border-radius:10px;background:var(--accent-soft);color:var(--accent);font-weight:600}
-  .kpi.hero .value{font-size:30px;font-weight:600;letter-spacing:-0.03em;line-height:1.1}
-  .kpi .value{font-size:22px;font-weight:600;letter-spacing:-0.02em;line-height:1.1}
-  .kpi .delta{font-size:11.5px;margin-top:6px;color:var(--text-dim);display:flex;align-items:center;gap:6px;flex-wrap:wrap}
-  .kpi .delta-chip{display:inline-flex;align-items:center;gap:3px;padding:2px 7px;border-radius:6px;font-weight:600;font-family:'JetBrains Mono';font-size:10.5px}
-  .chip-pos{background:var(--green-soft);color:var(--green);border:1px solid var(--green-border)}
-  .chip-neg{background:var(--red-soft);color:var(--red);border:1px solid var(--red-border)}
-  .chip-neutral{background:rgba(138,147,184,0.1);color:var(--text-dim);border:1px solid var(--border-2)}
-  .pos{color:var(--green)} .neg{color:var(--red)}
+.kpi{background:linear-gradient(180deg,var(–bg-2),var(–bg-1));border:1px solid var(–border);border-radius:14px;padding:16px 18px;position:relative;overflow:hidden}
+.kpi.hero{padding:20px 24px}
+.kpi-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px}
+.kpi .label{font-size:10.5px;color:var(–text-dim);text-transform:uppercase;letter-spacing:0.1em;font-weight:600}
+.kpi .badge{font-size:10px;padding:2px 8px;border-radius:10px;background:var(–accent-soft);color:var(–accent);font-weight:600}
+.kpi.hero .value{font-size:30px;font-weight:600;letter-spacing:-0.03em;line-height:1.1}
+.kpi .value{font-size:22px;font-weight:600;letter-spacing:-0.02em;line-height:1.1}
+.kpi .delta{font-size:11.5px;margin-top:6px;color:var(–text-dim);display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.kpi .delta-chip{display:inline-flex;align-items:center;gap:3px;padding:2px 7px;border-radius:6px;font-weight:600;font-family:‘JetBrains Mono’;font-size:10.5px}
+.chip-pos{background:var(–green-soft);color:var(–green);border:1px solid var(–green-border)}
+.chip-neg{background:var(–red-soft);color:var(–red);border:1px solid var(–red-border)}
+.chip-neutral{background:rgba(138,147,184,0.1);color:var(–text-dim);border:1px solid var(–border-2)}
+.pos{color:var(–green)} .neg{color:var(–red)}
 
-  /* Cards */
-  .card{background:var(--bg-1);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:16px}
-  .card-header{padding:14px 18px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
-  .card-header h2{font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--text);display:flex;align-items:center;gap:8px}
-  .card-header h2::before{content:'';width:3px;height:14px;background:var(--accent);border-radius:2px}
-  .card-header .sub{font-size:11px;color:var(--text-dim);margin-top:2px}
-  .card-body{padding:18px}
+/* Cards */
+.card{background:var(–bg-1);border:1px solid var(–border);border-radius:14px;overflow:hidden;margin-bottom:16px}
+.card-header{padding:14px 18px;border-bottom:1px solid var(–border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+.card-header h2{font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(–text);display:flex;align-items:center;gap:8px}
+.card-header h2::before{content:’’;width:3px;height:14px;background:var(–accent);border-radius:2px}
+.card-header .sub{font-size:11px;color:var(–text-dim);margin-top:2px}
+.card-body{padding:18px}
 
-  /* Main 2col */
-  .main-2col{display:grid;grid-template-columns:1fr 380px;gap:16px;margin-bottom:16px}
-  @media(max-width:1100px){.main-2col{grid-template-columns:1fr}}
+/* Main 2col */
+.main-2col{display:grid;grid-template-columns:1fr 380px;gap:16px;margin-bottom:16px}
+@media(max-width:1100px){.main-2col{grid-template-columns:1fr}}
 
-  /* Chart */
-  .chart-wrap{height:420px;position:relative;width:100%}
-  .chart-wrap canvas{width:100% !important;height:100% !important;display:block}
-  @media(max-width:700px){.chart-wrap{height:300px}}
-  .chart-toggle{display:flex;gap:2px;background:var(--bg-0);padding:3px;border-radius:8px;border:1px solid var(--border)}
-  .chart-toggle button{background:transparent;border:none;color:var(--text-dim);padding:5px 10px;border-radius:6px;font-size:11px;cursor:pointer;font-family:inherit;font-weight:600}
-  .chart-toggle button.active{background:var(--bg-3);color:var(--text)}
+/* Chart */
+.chart-wrap{height:420px;position:relative;width:100%}
+.chart-wrap canvas{width:100% !important;height:100% !important;display:block}
+@media(max-width:700px){.chart-wrap{height:300px}}
+.chart-toggle{display:flex;gap:2px;background:var(–bg-0);padding:3px;border-radius:8px;border:1px solid var(–border)}
+.chart-toggle button{background:transparent;border:none;color:var(–text-dim);padding:5px 10px;border-radius:6px;font-size:11px;cursor:pointer;font-family:inherit;font-weight:600}
+.chart-toggle button.active{background:var(–bg-3);color:var(–text)}
 
-  /* Asset rows */
-  .asset-row{display:grid;grid-template-columns:1fr auto auto auto;gap:16px;align-items:center;padding:14px 16px;background:var(--bg-2);border:1px solid var(--border);border-radius:10px;margin-bottom:8px;transition:border-color .15s}
-  .asset-row:hover{border-color:var(--border-2)}
-  .asset-info{min-width:0}
-  .asset-name{font-size:13px;font-weight:600;color:var(--text);margin-bottom:3px}
-  .asset-sub{font-size:11px;color:var(--text-dim);display:flex;align-items:center;gap:6px;flex-wrap:wrap}
-  .asset-tag{font-size:9.5px;padding:2px 6px;border-radius:4px;background:var(--bg-3);color:var(--text-dim);font-weight:600;text-transform:uppercase;letter-spacing:0.04em}
-  .asset-tag.fineco{background:rgba(255,213,79,0.12);color:var(--gold);border:1px solid rgba(255,213,79,0.28)}
-  .asset-tag.tr{background:rgba(171,71,188,0.12);color:var(--purple);border:1px solid rgba(171,71,188,0.28)}
-  .asset-tag.intesa{background:rgba(0,212,255,0.12);color:var(--green-bright);border:1px solid rgba(0,212,255,0.28)}
-  .asset-tag.poste{background:rgba(236,64,122,0.12);color:var(--pink);border:1px solid rgba(236,64,122,0.28)}
-  .asset-tag.revolut{background:rgba(55,71,79,0.18);color:#90a4ae;border:1px solid rgba(55,71,79,0.35)}
-  .asset-qty{font-size:11px;color:var(--text-muted);font-family:'JetBrains Mono';text-align:right;min-width:90px}
-  .asset-price{font-size:11.5px;color:var(--text-dim);font-family:'JetBrains Mono';text-align:right;min-width:80px}
-  .asset-value{text-align:right;min-width:110px}
-  .asset-value .main{font-size:14px;font-weight:700;font-family:'JetBrains Mono';letter-spacing:-0.01em}
-  .asset-value .pnl{font-size:11px;font-weight:600;font-family:'JetBrains Mono';margin-top:2px}
-  @media(max-width:700px){.asset-row{grid-template-columns:1fr auto;gap:8px}.asset-qty,.asset-price{display:none}}
+/* Asset rows */
+.asset-row{display:grid;grid-template-columns:1fr auto auto auto;gap:16px;align-items:center;padding:14px 16px;background:var(–bg-2);border:1px solid var(–border);border-radius:10px;margin-bottom:8px;transition:border-color .15s}
+.asset-row:hover{border-color:var(–border-2)}
+.asset-info{min-width:0}
+.asset-name{font-size:13px;font-weight:600;color:var(–text);margin-bottom:3px}
+.asset-sub{font-size:11px;color:var(–text-dim);display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.asset-tag{font-size:9.5px;padding:2px 6px;border-radius:4px;background:var(–bg-3);color:var(–text-dim);font-weight:600;text-transform:uppercase;letter-spacing:0.04em}
+.asset-tag.fineco{background:rgba(255,213,79,0.12);color:var(–gold);border:1px solid rgba(255,213,79,0.28)}
+.asset-tag.tr{background:rgba(171,71,188,0.12);color:var(–purple);border:1px solid rgba(171,71,188,0.28)}
+.asset-tag.intesa{background:rgba(0,212,255,0.12);color:var(–green-bright);border:1px solid rgba(0,212,255,0.28)}
+.asset-tag.poste{background:rgba(236,64,122,0.12);color:var(–pink);border:1px solid rgba(236,64,122,0.28)}
+.asset-tag.revolut{background:rgba(55,71,79,0.18);color:#90a4ae;border:1px solid rgba(55,71,79,0.35)}
+.asset-qty{font-size:11px;color:var(–text-muted);font-family:‘JetBrains Mono’;text-align:right;min-width:90px}
+.asset-price{font-size:11.5px;color:var(–text-dim);font-family:‘JetBrains Mono’;text-align:right;min-width:80px}
+.asset-value{text-align:right;min-width:110px}
+.asset-value .main{font-size:14px;font-weight:700;font-family:‘JetBrains Mono’;letter-spacing:-0.01em}
+.asset-value .pnl{font-size:11px;font-weight:600;font-family:‘JetBrains Mono’;margin-top:2px}
+@media(max-width:700px){.asset-row{grid-template-columns:1fr auto;gap:8px}.asset-qty,.asset-price{display:none}}
 
-  /* Allocation bar */
-  .alloc-bar{display:flex;height:8px;border-radius:4px;overflow:hidden;margin:10px 0 6px}
-  .alloc-seg{height:100%;transition:flex .3s}
-  .alloc-legend{display:flex;flex-wrap:wrap;gap:10px;font-size:11px;color:var(--text-dim)}
-  .alloc-legend span{display:inline-flex;align-items:center;gap:5px}
-  .alloc-legend .dot{width:8px;height:8px;border-radius:2px}
+/* Allocation bar */
+.alloc-bar{display:flex;height:8px;border-radius:4px;overflow:hidden;margin:10px 0 6px}
+.alloc-seg{height:100%;transition:flex .3s}
+.alloc-legend{display:flex;flex-wrap:wrap;gap:10px;font-size:11px;color:var(–text-dim)}
+.alloc-legend span{display:inline-flex;align-items:center;gap:5px}
+.alloc-legend .dot{width:8px;height:8px;border-radius:2px}
 
-  /* Breakdown */
-  .breakdown{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}
-  .breakdown-item{background:var(--bg-2);border:1px solid var(--border);border-radius:10px;padding:12px 14px}
-  .breakdown-item .bi-head{display:flex;align-items:center;gap:8px;font-size:11px;color:var(--text-dim);font-weight:600;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px}
-  .breakdown-item .bi-ico{width:8px;height:8px;border-radius:2px}
-  .breakdown-item .bi-value{font-size:16px;font-weight:700;font-family:'JetBrains Mono';letter-spacing:-0.02em}
-  .breakdown-item .bi-sub{font-size:11px;color:var(--text-dim);margin-top:3px}
+/* Breakdown */
+.breakdown{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}
+.breakdown-item{background:var(–bg-2);border:1px solid var(–border);border-radius:10px;padding:12px 14px}
+.breakdown-item .bi-head{display:flex;align-items:center;gap:8px;font-size:11px;color:var(–text-dim);font-weight:600;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px}
+.breakdown-item .bi-ico{width:8px;height:8px;border-radius:2px}
+.breakdown-item .bi-value{font-size:16px;font-weight:700;font-family:‘JetBrains Mono’;letter-spacing:-0.02em}
+.breakdown-item .bi-sub{font-size:11px;color:var(–text-dim);margin-top:3px}
 
-  /* Stats grid (forex) */
-  .stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-  .stat-row{display:flex;justify-content:space-between;align-items:center;padding:9px 12px;background:var(--bg-2);border:1px solid var(--border);border-radius:8px}
-  .stat-row .label{font-size:10.5px;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.06em;font-weight:500}
-  .stat-row .val{font-size:12.5px;font-weight:600;font-family:'JetBrains Mono'}
+/* Stats grid (forex) */
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.stat-row{display:flex;justify-content:space-between;align-items:center;padding:9px 12px;background:var(–bg-2);border:1px solid var(–border);border-radius:8px}
+.stat-row .label{font-size:10.5px;color:var(–text-dim);text-transform:uppercase;letter-spacing:0.06em;font-weight:500}
+.stat-row .val{font-size:12.5px;font-weight:600;font-family:‘JetBrains Mono’}
 
-  /* Calendar */
-  .cal-nav{display:flex;align-items:center;gap:6px}
-  .cal-nav button{background:var(--bg-3);border:1px solid var(--border-2);color:var(--text);width:26px;height:26px;border-radius:6px;cursor:pointer;font-size:13px;display:grid;place-items:center}
-  .cal-nav button:hover{background:var(--bg-hover)}
-  .cal-nav .month-label{font-size:12px;font-weight:600;min-width:120px;text-align:center}
-  .calendar{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;max-width:680px;margin:0 auto}
-  .cal-dow{font-size:10px;color:var(--text-muted);text-transform:uppercase;text-align:center;padding:6px 0;letter-spacing:0.12em;font-weight:700}
-  .cal-day{aspect-ratio:1/1.1;background:var(--bg-2);border:1px solid var(--border);border-radius:8px;padding:8px 6px;display:flex;flex-direction:column;justify-content:space-between;cursor:pointer;transition:all .15s;position:relative;min-height:62px;overflow:hidden}
-  .cal-day:hover{border-color:var(--border-strong);transform:translateY(-1px)}
-  .cal-day.empty{background:var(--bg-1);opacity:0.4;cursor:default}
-  .cal-day.empty:hover{transform:none}
-  .cal-day.today{box-shadow:0 0 0 2px var(--accent),0 0 16px rgba(41,98,255,0.35)}
-  .cal-day.win{background:#1b5e51;border-color:#26a69a}
-  .cal-day.loss{background:#7a2a28;border-color:#ef5350}
-  .cal-day.flat{background:rgba(138,147,184,0.1)}
-  .cal-day.future{background:var(--bg-1);opacity:0.55}
-  .cal-date{font-size:11px;color:var(--text-dim);font-weight:600;line-height:1}
-  .cal-day.win .cal-date,.cal-day.loss .cal-date{color:rgba(255,255,255,0.75)}
-  .cal-center{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;gap:1px}
-  .cal-pnl{font-size:13px;font-weight:700;font-family:'JetBrains Mono';color:var(--text);line-height:1.1}
-  .cal-day.win .cal-pnl,.cal-day.loss .cal-pnl{color:#fff}
-  .cal-count{font-size:9px;color:rgba(255,255,255,0.7);font-weight:500;line-height:1}
-  .cal-day.flat .cal-count,.cal-day.future .cal-count{color:var(--text-muted)}
-  .week-totals-row{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;padding:7px 12px;background:var(--bg-2);border:1px solid var(--border);border-radius:7px;font-size:11px;margin-top:5px;max-width:680px;margin-left:auto;margin-right:auto}
-  .week-totals-row .label{color:var(--text-dim);font-weight:500}
-  .week-totals-row .val{font-weight:700;font-family:'JetBrains Mono';font-size:11.5px}
+/* Calendar */
+.cal-nav{display:flex;align-items:center;gap:6px}
+.cal-nav button{background:var(–bg-3);border:1px solid var(–border-2);color:var(–text);width:26px;height:26px;border-radius:6px;cursor:pointer;font-size:13px;display:grid;place-items:center}
+.cal-nav button:hover{background:var(–bg-hover)}
+.cal-nav .month-label{font-size:12px;font-weight:600;min-width:120px;text-align:center}
+.calendar{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;max-width:680px;margin:0 auto}
+.cal-dow{font-size:10px;color:var(–text-muted);text-transform:uppercase;text-align:center;padding:6px 0;letter-spacing:0.12em;font-weight:700}
+.cal-day{aspect-ratio:1/1.1;background:var(–bg-2);border:1px solid var(–border);border-radius:8px;padding:8px 6px;display:flex;flex-direction:column;justify-content:space-between;cursor:pointer;transition:all .15s;position:relative;min-height:62px;overflow:hidden}
+.cal-day:hover{border-color:var(–border-strong);transform:translateY(-1px)}
+.cal-day.empty{background:var(–bg-1);opacity:0.4;cursor:default}
+.cal-day.empty:hover{transform:none}
+.cal-day.today{box-shadow:0 0 0 2px var(–accent),0 0 16px rgba(41,98,255,0.35)}
+.cal-day.win{background:#1b5e51;border-color:#26a69a}
+.cal-day.loss{background:#7a2a28;border-color:#ef5350}
+.cal-day.flat{background:rgba(138,147,184,0.1)}
+.cal-day.future{background:var(–bg-1);opacity:0.55}
+.cal-date{font-size:11px;color:var(–text-dim);font-weight:600;line-height:1}
+.cal-day.win .cal-date,.cal-day.loss .cal-date{color:rgba(255,255,255,0.75)}
+.cal-center{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;gap:1px}
+.cal-pnl{font-size:13px;font-weight:700;font-family:‘JetBrains Mono’;color:var(–text);line-height:1.1}
+.cal-day.win .cal-pnl,.cal-day.loss .cal-pnl{color:#fff}
+.cal-count{font-size:9px;color:rgba(255,255,255,0.7);font-weight:500;line-height:1}
+.cal-day.flat .cal-count,.cal-day.future .cal-count{color:var(–text-muted)}
+.week-totals-row{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;padding:7px 12px;background:var(–bg-2);border:1px solid var(–border);border-radius:7px;font-size:11px;margin-top:5px;max-width:680px;margin-left:auto;margin-right:auto}
+.week-totals-row .label{color:var(–text-dim);font-weight:500}
+.week-totals-row .val{font-weight:700;font-family:‘JetBrains Mono’;font-size:11.5px}
 
-  /* Goal card */
-  .goal-card{background:linear-gradient(180deg,var(--bg-2),var(--bg-1));border:1px solid var(--border);border-radius:14px;padding:14px 16px;margin-bottom:16px}
-  .goal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
-  .goal-title{display:flex;align-items:center;gap:8px}
-  .goal-title h3{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em}
-  .goal-current{font-size:16px;font-weight:700;font-family:'JetBrains Mono'}
-  .goal-bar{position:relative;height:10px;background:var(--bg-0);border-radius:6px;overflow:hidden;border:1px solid var(--border)}
-  .goal-fill{position:absolute;top:0;left:0;bottom:0;border-radius:5px;transition:width .4s cubic-bezier(0.4,0,0.2,1)}
-  .goal-fill.tier-low{background:linear-gradient(90deg,#26a69a55,#26a69a)}
-  .goal-fill.tier-mid{background:linear-gradient(90deg,#26a69a,#00d4ff)}
-  .goal-fill.tier-high{background:linear-gradient(90deg,#00d4ff,#ffd54f)}
-  .goal-fill.tier-max{background:linear-gradient(90deg,#ffd54f,#ffa726)}
+/* Goal card */
+.goal-card{background:linear-gradient(180deg,var(–bg-2),var(–bg-1));border:1px solid var(–border);border-radius:14px;padding:14px 16px;margin-bottom:16px}
+.goal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.goal-title{display:flex;align-items:center;gap:8px}
+.goal-title h3{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em}
+.goal-current{font-size:16px;font-weight:700;font-family:‘JetBrains Mono’}
+.goal-bar{position:relative;height:10px;background:var(–bg-0);border-radius:6px;overflow:hidden;border:1px solid var(–border)}
+.goal-fill{position:absolute;top:0;left:0;bottom:0;border-radius:5px;transition:width .4s cubic-bezier(0.4,0,0.2,1)}
+.goal-fill.tier-low{background:linear-gradient(90deg,#26a69a55,#26a69a)}
+.goal-fill.tier-mid{background:linear-gradient(90deg,#26a69a,#00d4ff)}
+.goal-fill.tier-high{background:linear-gradient(90deg,#00d4ff,#ffd54f)}
+.goal-fill.tier-max{background:linear-gradient(90deg,#ffd54f,#ffa726)}
 
-  /* Table */
-  .table-wrap{overflow-x:auto}
-  table{width:100%;border-collapse:collapse}
-  th{text-align:left;padding:10px 14px;font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.1em;font-weight:700;border-bottom:1px solid var(--border);background:var(--bg-2)}
-  td{padding:11px 14px;font-size:12.5px;border-bottom:1px solid var(--border)}
-  tr:last-child td{border-bottom:none}
-  tr:hover td{background:var(--bg-2)}
-  .tag{display:inline-flex;align-items:center;padding:2px 7px;border-radius:5px;font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;gap:4px}
-  .tag.intraday{background:var(--accent-soft);color:var(--accent);border:1px solid rgba(41,98,255,0.25)}
-  .tag.overnight{background:var(--purple-soft);color:var(--purple);border:1px solid rgba(171,71,188,0.28)}
-  .tag.win{background:var(--green-soft);color:var(--green);border:1px solid var(--green-border)}
-  .tag.loss{background:var(--red-soft);color:var(--red);border:1px solid var(--red-border)}
-  .tag.dep{background:var(--green-soft);color:var(--green);border:1px solid var(--green-border)}
-  .tag.wd{background:var(--amber-soft);color:var(--amber);border:1px solid rgba(255,167,38,0.28)}
-  .tag.tax{background:rgba(138,147,184,0.1);color:var(--text-dim)}
-  .tag.eurusd{background:rgba(0,212,255,0.1);color:var(--green-bright);border:1px solid rgba(0,212,255,0.25)}
-  .tag.xauusd{background:var(--gold-soft);color:var(--gold);border:1px solid rgba(255,213,79,0.28)}
-  .tag.legacy{background:rgba(138,147,184,0.1);color:var(--text-dim);border:1px solid var(--border-2)}
-  .row-actions{display:flex;gap:3px}
-  .icon-btn{background:transparent;border:none;color:var(--text-muted);cursor:pointer;padding:5px 7px;border-radius:5px;font-size:12px}
-  .icon-btn:hover{background:var(--bg-hover);color:var(--text)}
-  .icon-btn.del:hover{color:var(--red)}
+/* Table */
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse}
+th{text-align:left;padding:10px 14px;font-size:10px;color:var(–text-muted);text-transform:uppercase;letter-spacing:0.1em;font-weight:700;border-bottom:1px solid var(–border);background:var(–bg-2)}
+td{padding:11px 14px;font-size:12.5px;border-bottom:1px solid var(–border)}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:var(–bg-2)}
+.tag{display:inline-flex;align-items:center;padding:2px 7px;border-radius:5px;font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;gap:4px}
+.tag.intraday{background:var(–accent-soft);color:var(–accent);border:1px solid rgba(41,98,255,0.25)}
+.tag.overnight{background:var(–purple-soft);color:var(–purple);border:1px solid rgba(171,71,188,0.28)}
+.tag.win{background:var(–green-soft);color:var(–green);border:1px solid var(–green-border)}
+.tag.loss{background:var(–red-soft);color:var(–red);border:1px solid var(–red-border)}
+.tag.dep{background:var(–green-soft);color:var(–green);border:1px solid var(–green-border)}
+.tag.wd{background:var(–amber-soft);color:var(–amber);border:1px solid rgba(255,167,38,0.28)}
+.tag.tax{background:rgba(138,147,184,0.1);color:var(–text-dim)}
+.tag.eurusd{background:rgba(0,212,255,0.1);color:var(–green-bright);border:1px solid rgba(0,212,255,0.25)}
+.tag.xauusd{background:var(–gold-soft);color:var(–gold);border:1px solid rgba(255,213,79,0.28)}
+.tag.legacy{background:rgba(138,147,184,0.1);color:var(–text-dim);border:1px solid var(–border-2)}
+.row-actions{display:flex;gap:3px}
+.icon-btn{background:transparent;border:none;color:var(–text-muted);cursor:pointer;padding:5px 7px;border-radius:5px;font-size:12px}
+.icon-btn:hover{background:var(–bg-hover);color:var(–text)}
+.icon-btn.del:hover{color:var(–red)}
 
-  /* Category icons */
-  .cat-icon{width:32px;height:32px;border-radius:9px;display:grid;place-items:center;font-size:15px;flex-shrink:0}
-  .cat-pensione{background:rgba(0,212,255,0.15);color:var(--green-bright)}
-  .cat-entrate{background:var(--green-soft);color:var(--green)}
-  .cat-ristoranti{background:rgba(255,167,38,0.15);color:var(--amber)}
-  .cat-trasporti{background:rgba(41,98,255,0.15);color:var(--accent)}
-  .cat-shopping{background:rgba(236,64,122,0.15);color:var(--pink)}
-  .cat-casa{background:rgba(171,71,188,0.15);color:var(--purple)}
-  .cat-utenze{background:rgba(171,71,188,0.12);color:var(--purple)}
-  .cat-tasse{background:rgba(138,147,184,0.15);color:var(--text-dim)}
-  .cat-assicurazioni{background:rgba(138,147,184,0.15);color:var(--text-dim)}
-  .cat-salvadanaio_in{background:rgba(38,166,154,0.12);color:var(--green)}
-  .cat-salvadanaio_out{background:rgba(38,166,154,0.12);color:var(--green)}
-  .cat-investimento{background:rgba(255,213,79,0.15);color:var(--gold)}
-  .cat-altro{background:rgba(138,147,184,0.1);color:var(--text-dim)}
-  .cat-scommesse{background:rgba(244,67,54,0.12);color:#ff7961}
+/* Category icons */
+.cat-icon{width:32px;height:32px;border-radius:9px;display:grid;place-items:center;font-size:15px;flex-shrink:0}
+.cat-pensione{background:rgba(0,212,255,0.15);color:var(–green-bright)}
+.cat-entrate{background:var(–green-soft);color:var(–green)}
+.cat-ristoranti{background:rgba(255,167,38,0.15);color:var(–amber)}
+.cat-trasporti{background:rgba(41,98,255,0.15);color:var(–accent)}
+.cat-shopping{background:rgba(236,64,122,0.15);color:var(–pink)}
+.cat-casa{background:rgba(171,71,188,0.15);color:var(–purple)}
+.cat-utenze{background:rgba(171,71,188,0.12);color:var(–purple)}
+.cat-tasse{background:rgba(138,147,184,0.15);color:var(–text-dim)}
+.cat-assicurazioni{background:rgba(138,147,184,0.15);color:var(–text-dim)}
+.cat-salvadanaio_in{background:rgba(38,166,154,0.12);color:var(–green)}
+.cat-salvadanaio_out{background:rgba(38,166,154,0.12);color:var(–green)}
+.cat-investimento{background:rgba(255,213,79,0.15);color:var(–gold)}
+.cat-altro{background:rgba(138,147,184,0.1);color:var(–text-dim)}
+.cat-scommesse{background:rgba(244,67,54,0.12);color:#ff7961}
 
-  /* Filter pills */
-  .filter-pills{display:flex;gap:5px;padding:12px 18px;border-bottom:1px solid var(--border);flex-wrap:wrap;background:var(--bg-2);overflow-x:auto}
-  .pill{background:transparent;border:1px solid var(--border-2);color:var(--text-dim);padding:5px 12px;border-radius:20px;font-size:11px;cursor:pointer;font-family:inherit;font-weight:600;white-space:nowrap}
-  .pill:hover{color:var(--text);border-color:var(--border-strong)}
-  .pill.active{background:var(--text);color:var(--bg-0);border-color:var(--text)}
+/* Filter pills */
+.filter-pills{display:flex;gap:5px;padding:12px 18px;border-bottom:1px solid var(–border);flex-wrap:wrap;background:var(–bg-2);overflow-x:auto}
+.pill{background:transparent;border:1px solid var(–border-2);color:var(–text-dim);padding:5px 12px;border-radius:20px;font-size:11px;cursor:pointer;font-family:inherit;font-weight:600;white-space:nowrap}
+.pill:hover{color:var(–text);border-color:var(–border-strong)}
+.pill.active{background:var(–text);color:var(–bg-0);border-color:var(–text)}
 
-  /* Modal */
-  .modal-overlay{position:fixed;inset:0;background:rgba(5,8,15,0.85);display:none;align-items:center;justify-content:center;z-index:100;padding:18px;backdrop-filter:blur(6px)}
-  .modal-overlay.open{display:flex}
-  .modal{background:var(--bg-1);border:1px solid var(--border-strong);border-radius:16px;width:100%;max-width:500px;max-height:92vh;overflow-y:auto;box-shadow:0 24px 60px rgba(0,0,0,0.5)}
-  .modal-header{padding:18px 22px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
-  .modal-header h3{font-size:15px;font-weight:600}
-  .modal-body{padding:22px}
-  .modal-footer{padding:14px 22px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:8px}
-  .form-group{margin-bottom:14px}
-  .form-group label{display:block;font-size:10.5px;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px;font-weight:600}
-  .form-group input,.form-group select,.form-group textarea{width:100%;background:var(--bg-2);border:1px solid var(--border-2);color:var(--text);padding:10px 12px;border-radius:8px;font-family:inherit;font-size:13px}
-  .form-group input:focus,.form-group select:focus,.form-group textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
-  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-  .form-row-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
-  .type-selector{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:16px}
-  .type-selector button{background:var(--bg-2);border:1px solid var(--border-2);color:var(--text-dim);padding:10px 8px;border-radius:8px;cursor:pointer;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;font-family:inherit}
-  .type-selector button.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+/* Modal */
+.modal-overlay{position:fixed;inset:0;background:rgba(5,8,15,0.85);display:none;align-items:center;justify-content:center;z-index:100;padding:18px;backdrop-filter:blur(6px)}
+.modal-overlay.open{display:flex}
+.modal{background:var(–bg-1);border:1px solid var(–border-strong);border-radius:16px;width:100%;max-width:500px;max-height:92vh;overflow-y:auto;box-shadow:0 24px 60px rgba(0,0,0,0.5)}
+.modal-header{padding:18px 22px;border-bottom:1px solid var(–border);display:flex;justify-content:space-between;align-items:center}
+.modal-header h3{font-size:15px;font-weight:600}
+.modal-body{padding:22px}
+.modal-footer{padding:14px 22px;border-top:1px solid var(–border);display:flex;justify-content:flex-end;gap:8px}
+.form-group{margin-bottom:14px}
+.form-group label{display:block;font-size:10.5px;color:var(–text-dim);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px;font-weight:600}
+.form-group input,.form-group select,.form-group textarea{width:100%;background:var(–bg-2);border:1px solid var(–border-2);color:var(–text);padding:10px 12px;border-radius:8px;font-family:inherit;font-size:13px}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{outline:none;border-color:var(–accent);box-shadow:0 0 0 3px var(–accent-soft)}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.form-row-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.type-selector{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:16px}
+.type-selector button{background:var(–bg-2);border:1px solid var(–border-2);color:var(–text-dim);padding:10px 8px;border-radius:8px;cursor:pointer;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;font-family:inherit}
+.type-selector button.active{background:var(–accent);color:#fff;border-color:var(–accent)}
 
-  .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--bg-3);border:1px solid var(--border-strong);padding:12px 20px;border-radius:10px;font-size:13px;z-index:200;opacity:0;transition:opacity .2s;pointer-events:none;font-weight:500}
-  .toast.show{opacity:1}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(–bg-3);border:1px solid var(–border-strong);padding:12px 20px;border-radius:10px;font-size:13px;z-index:200;opacity:0;transition:opacity .2s;pointer-events:none;font-weight:500}
+.toast.show{opacity:1}
 
-  /* Broker big cards */
-  .broker-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
-  .broker-card{background:linear-gradient(180deg,var(--bg-2),var(--bg-1));border:1px solid var(--border);border-radius:14px;padding:16px 18px;cursor:pointer;transition:all .18s;position:relative;overflow:hidden}
-  .broker-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--accent-clr,#8a93b8);opacity:0.8}
-  .broker-card:hover{border-color:var(--border-strong);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,0.3)}
-  .broker-card .bc-head{display:flex;align-items:center;gap:10px;margin-bottom:10px}
-  .broker-card .bc-icon{width:38px;height:38px;border-radius:10px;display:grid;place-items:center;font-size:19px;flex-shrink:0}
-  .broker-card .bc-title{font-weight:600;font-size:14px}
-  .broker-card .bc-sub{font-size:10.5px;color:var(--text-muted);margin-top:1px}
-  .broker-card .bc-value{font-size:22px;font-weight:700;font-family:'JetBrains Mono',monospace;letter-spacing:-0.02em;margin-bottom:5px}
-  .broker-card .bc-footer{display:flex;justify-content:space-between;align-items:center;font-size:10.5px;color:var(--text-dim);margin-top:8px}
-  .broker-card .bc-arrow{font-size:12px;color:var(--text-muted);opacity:0.7}
-  .broker-card:hover .bc-arrow{color:var(--text);opacity:1}
+/* Broker big cards */
+.broker-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
+.broker-card{background:linear-gradient(180deg,var(–bg-2),var(–bg-1));border:1px solid var(–border);border-radius:14px;padding:16px 18px;cursor:pointer;transition:all .18s;position:relative;overflow:hidden}
+.broker-card::before{content:’’;position:absolute;top:0;left:0;right:0;height:3px;background:var(–accent-clr,#8a93b8);opacity:0.8}
+.broker-card:hover{border-color:var(–border-strong);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,0.3)}
+.broker-card .bc-head{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.broker-card .bc-icon{width:38px;height:38px;border-radius:10px;display:grid;place-items:center;font-size:19px;flex-shrink:0}
+.broker-card .bc-title{font-weight:600;font-size:14px}
+.broker-card .bc-sub{font-size:10.5px;color:var(–text-muted);margin-top:1px}
+.broker-card .bc-value{font-size:22px;font-weight:700;font-family:‘JetBrains Mono’,monospace;letter-spacing:-0.02em;margin-bottom:5px}
+.broker-card .bc-footer{display:flex;justify-content:space-between;align-items:center;font-size:10.5px;color:var(–text-dim);margin-top:8px}
+.broker-card .bc-arrow{font-size:12px;color:var(–text-muted);opacity:0.7}
+.broker-card:hover .bc-arrow{color:var(–text);opacity:1}
 
-  .empty{padding:40px;text-align:center;color:var(--text-muted);font-size:13px}
+.empty{padding:40px;text-align:center;color:var(–text-muted);font-size:13px}
 
-  /* Calendario eventi */
-  #calendarCard.collapsed #calendarBody, #calendarCard.collapsed #calendarTabsWrap{display:none}
-  #calendarCard.collapsed #calendarCollapseIcon{transform:rotate(-90deg);display:inline-block}
-  #calendarCollapseIcon{display:inline-block;transition:transform .2s}
-  .now-indicator{padding:8px 14px;background:linear-gradient(90deg,rgba(239,83,80,0.15),rgba(239,83,80,0.05));border-left:3px solid var(--red);border-radius:6px;margin:8px 0;display:flex;align-items:center;gap:10px;font-size:12px;font-weight:600;color:var(--red);animation:pulse-now 2s ease-in-out infinite}
-  @keyframes pulse-now{0%,100%{opacity:1}50%{opacity:0.6}}
-  .now-arrow{font-size:16px}
-  .news-banner{padding:12px 14px;border-radius:10px;margin-bottom:14px;display:flex;align-items:center;gap:10px;font-size:13px;font-weight:500}
-  .news-banner.critical{background:rgba(239,83,80,0.12);color:var(--red);border:1px solid rgba(239,83,80,0.35)}
-  .news-banner.warning{background:rgba(255,193,7,0.14);color:var(--gold);border:1px solid rgba(255,193,7,0.35)}
-  .news-banner.medium{background:rgba(255,167,38,0.12);color:#ffa726;border:1px solid rgba(255,167,38,0.32)}
-  .news-banner.ok{background:rgba(38,166,154,0.1);color:var(--green);border:1px solid rgba(38,166,154,0.28)}
-  .event-day{font-size:10.5px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.08em;margin:14px 0 6px 0;font-weight:600}
-  .event-day:first-child{margin-top:0}
-  .event-row{padding:10px 12px;background:var(--bg-2);border:1px solid var(--border);border-radius:9px;margin-bottom:6px;display:grid;grid-template-columns:48px 28px 1fr auto;gap:10px;align-items:center;font-size:12.5px}
-  .event-row.past{opacity:0.45}
-  .event-time{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-dim);font-weight:600}
-  .event-impact{width:8px;height:8px;border-radius:50%;margin:0 auto}
-  .event-impact.high{background:var(--red);box-shadow:0 0 8px rgba(239,83,80,0.6)}
-  .event-impact.medium{background:var(--gold)}
-  .event-impact.low{background:var(--green)}
-  .event-impact.holiday{background:var(--text-dim)}
-  .event-title{font-weight:500}
-  .event-currency{font-size:10.5px;padding:2px 6px;background:var(--bg-3);border-radius:4px;color:var(--text-muted);font-weight:600;white-space:nowrap}
-  .deadline-row{padding:12px 14px;background:var(--bg-2);border:1px solid var(--border);border-radius:10px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;gap:10px}
-  .deadline-row.urgent{border-color:rgba(255,193,7,0.4)}
-  .deadline-row.critical{border-color:rgba(239,83,80,0.4)}
-  .deadline-title{font-weight:500;font-size:13px;margin-bottom:3px}
-  .deadline-sub{font-size:10.5px;color:var(--text-muted)}
-  .deadline-time{text-align:right}
-  .deadline-countdown{font-family:'JetBrains Mono',monospace;font-weight:600;font-size:12.5px}
-  .deadline-date{font-size:10.5px;color:var(--text-muted)}
-  .cal-empty{padding:30px;text-align:center;color:var(--text-muted);font-size:12px}
-  .cal-loading{padding:20px;text-align:center;color:var(--text-muted);font-size:12px}
+/* Calendario eventi */
+#calendarCard.collapsed #calendarBody, #calendarCard.collapsed #calendarTabsWrap{display:none}
+#calendarCard.collapsed #calendarCollapseIcon{transform:rotate(-90deg);display:inline-block}
+#calendarCollapseIcon{display:inline-block;transition:transform .2s}
+.now-indicator{padding:8px 14px;background:linear-gradient(90deg,rgba(239,83,80,0.15),rgba(239,83,80,0.05));border-left:3px solid var(–red);border-radius:6px;margin:8px 0;display:flex;align-items:center;gap:10px;font-size:12px;font-weight:600;color:var(–red);animation:pulse-now 2s ease-in-out infinite}
+@keyframes pulse-now{0%,100%{opacity:1}50%{opacity:0.6}}
+.now-arrow{font-size:16px}
+.news-banner{padding:12px 14px;border-radius:10px;margin-bottom:14px;display:flex;align-items:center;gap:10px;font-size:13px;font-weight:500}
+.news-banner.critical{background:rgba(239,83,80,0.12);color:var(–red);border:1px solid rgba(239,83,80,0.35)}
+.news-banner.warning{background:rgba(255,193,7,0.14);color:var(–gold);border:1px solid rgba(255,193,7,0.35)}
+.news-banner.medium{background:rgba(255,167,38,0.12);color:#ffa726;border:1px solid rgba(255,167,38,0.32)}
+.news-banner.ok{background:rgba(38,166,154,0.1);color:var(–green);border:1px solid rgba(38,166,154,0.28)}
+.event-day{font-size:10.5px;color:var(–text-muted);text-transform:uppercase;letter-spacing:0.08em;margin:14px 0 6px 0;font-weight:600}
+.event-day:first-child{margin-top:0}
+.event-row{padding:10px 12px;background:var(–bg-2);border:1px solid var(–border);border-radius:9px;margin-bottom:6px;display:grid;grid-template-columns:48px 28px 1fr auto;gap:10px;align-items:center;font-size:12.5px}
+.event-row.past{opacity:0.45}
+.event-time{font-family:‘JetBrains Mono’,monospace;font-size:11px;color:var(–text-dim);font-weight:600}
+.event-impact{width:8px;height:8px;border-radius:50%;margin:0 auto}
+.event-impact.high{background:var(–red);box-shadow:0 0 8px rgba(239,83,80,0.6)}
+.event-impact.medium{background:var(–gold)}
+.event-impact.low{background:var(–green)}
+.event-impact.holiday{background:var(–text-dim)}
+.event-title{font-weight:500}
+.event-currency{font-size:10.5px;padding:2px 6px;background:var(–bg-3);border-radius:4px;color:var(–text-muted);font-weight:600;white-space:nowrap}
+.deadline-row{padding:12px 14px;background:var(–bg-2);border:1px solid var(–border);border-radius:10px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.deadline-row.urgent{border-color:rgba(255,193,7,0.4)}
+.deadline-row.critical{border-color:rgba(239,83,80,0.4)}
+.deadline-title{font-weight:500;font-size:13px;margin-bottom:3px}
+.deadline-sub{font-size:10.5px;color:var(–text-muted)}
+.deadline-time{text-align:right}
+.deadline-countdown{font-family:‘JetBrains Mono’,monospace;font-weight:600;font-size:12.5px}
+.deadline-date{font-size:10.5px;color:var(–text-muted)}
+.cal-empty{padding:30px;text-align:center;color:var(–text-muted);font-size:12px}
+.cal-loading{padding:20px;text-align:center;color:var(–text-muted);font-size:12px}
 
-  /* 🧠 Brain card - Intelligenza Finanziaria */
-  .brain-card{background:linear-gradient(135deg,rgba(0,212,255,0.06),rgba(171,71,188,0.06));border:1px solid rgba(0,212,255,0.18)}
-  .brain-card.collapsed #brainBody{display:none}
-  .brain-card.collapsed #brainToggle{transform:rotate(-90deg)}
-  #brainToggle{transition:transform .2s}
+/* 🧠 Brain card - Intelligenza Finanziaria */
+.brain-card{background:linear-gradient(135deg,rgba(0,212,255,0.06),rgba(171,71,188,0.06));border:1px solid rgba(0,212,255,0.18)}
+.brain-card.collapsed #brainBody{display:none}
+.brain-card.collapsed #brainToggle{transform:rotate(-90deg)}
+#brainToggle{transition:transform .2s}
 
-  .brain-section{margin-bottom:18px;padding-bottom:18px;border-bottom:1px solid var(--border)}
-  .brain-section:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
-  .brain-section-title{font-size:11.5px;color:var(--accent);text-transform:uppercase;letter-spacing:0.08em;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.brain-section{margin-bottom:18px;padding-bottom:18px;border-bottom:1px solid var(–border)}
+.brain-section:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+.brain-section-title{font-size:11.5px;color:var(–accent);text-transform:uppercase;letter-spacing:0.08em;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:6px}
 
-  .brain-stat{display:flex;justify-content:space-between;align-items:baseline;padding:6px 0;font-size:13px}
-  .brain-stat-label{color:var(--text-dim)}
-  .brain-stat-value{font-family:'JetBrains Mono',monospace;font-weight:600;color:var(--text)}
+.brain-stat{display:flex;justify-content:space-between;align-items:baseline;padding:6px 0;font-size:13px}
+.brain-stat-label{color:var(–text-dim)}
+.brain-stat-value{font-family:‘JetBrains Mono’,monospace;font-weight:600;color:var(–text)}
 
-  .brain-bigvalue{font-size:28px;font-weight:700;font-family:'JetBrains Mono',monospace;letter-spacing:-0.02em;margin:8px 0 4px}
-  .brain-bigvalue.pos{color:var(--green)}
-  .brain-bigvalue.warn{color:var(--gold)}
-  .brain-bigvalue.neg{color:var(--red)}
+.brain-bigvalue{font-size:28px;font-weight:700;font-family:‘JetBrains Mono’,monospace;letter-spacing:-0.02em;margin:8px 0 4px}
+.brain-bigvalue.pos{color:var(–green)}
+.brain-bigvalue.warn{color:var(–gold)}
+.brain-bigvalue.neg{color:var(–red)}
 
-  .brain-progress{width:100%;height:8px;background:var(--bg-3);border-radius:4px;overflow:hidden;margin:8px 0}
-  .brain-progress-fill{height:100%;border-radius:4px;transition:width .5s}
-  .brain-progress-fill.green{background:linear-gradient(90deg,#26a69a,#00d4ff)}
-  .brain-progress-fill.yellow{background:linear-gradient(90deg,#ffd54f,#ffa726)}
-  .brain-progress-fill.red{background:linear-gradient(90deg,#ef5350,#d32f2f)}
+.brain-progress{width:100%;height:8px;background:var(–bg-3);border-radius:4px;overflow:hidden;margin:8px 0}
+.brain-progress-fill{height:100%;border-radius:4px;transition:width .5s}
+.brain-progress-fill.green{background:linear-gradient(90deg,#26a69a,#00d4ff)}
+.brain-progress-fill.yellow{background:linear-gradient(90deg,#ffd54f,#ffa726)}
+.brain-progress-fill.red{background:linear-gradient(90deg,#ef5350,#d32f2f)}
 
-  .brain-suggestion{background:var(--bg-2);border:1px solid var(--border);border-radius:10px;padding:12px 14px;margin-top:10px;display:flex;justify-content:space-between;align-items:center;gap:12px}
-  .brain-suggestion-text{font-size:12px;line-height:1.5;flex:1}
-  .brain-suggestion-btn{padding:7px 14px;background:var(--accent);color:#fff;border:none;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap}
-  .brain-suggestion-btn:hover{background:#1e4dcc}
+.brain-suggestion{background:var(–bg-2);border:1px solid var(–border);border-radius:10px;padding:12px 14px;margin-top:10px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.brain-suggestion-text{font-size:12px;line-height:1.5;flex:1}
+.brain-suggestion-btn{padding:7px 14px;background:var(–accent);color:#fff;border:none;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap}
+.brain-suggestion-btn:hover{background:#1e4dcc}
 
-  .brain-stress-row{display:grid;grid-template-columns:1fr auto;gap:8px;padding:8px 12px;background:var(--bg-2);border:1px solid var(--border);border-radius:8px;margin-bottom:6px;font-size:12px}
-  .brain-stress-row.ok{border-color:rgba(38,166,154,0.32)}
-  .brain-stress-row.warn{border-color:rgba(255,193,7,0.32)}
-  .brain-stress-row.danger{border-color:rgba(239,83,80,0.32)}
-  .brain-stress-title{font-weight:600}
-  .brain-stress-detail{font-size:10.5px;color:var(--text-muted);margin-top:2px}
-  .brain-stress-result{text-align:right;font-family:'JetBrains Mono',monospace;font-weight:600;font-size:12px}
+.brain-stress-row{display:grid;grid-template-columns:1fr auto;gap:8px;padding:8px 12px;background:var(–bg-2);border:1px solid var(–border);border-radius:8px;margin-bottom:6px;font-size:12px}
+.brain-stress-row.ok{border-color:rgba(38,166,154,0.32)}
+.brain-stress-row.warn{border-color:rgba(255,193,7,0.32)}
+.brain-stress-row.danger{border-color:rgba(239,83,80,0.32)}
+.brain-stress-title{font-weight:600}
+.brain-stress-detail{font-size:10.5px;color:var(–text-muted);margin-top:2px}
+.brain-stress-result{text-align:right;font-family:‘JetBrains Mono’,monospace;font-weight:600;font-size:12px}
 
-  .brain-quote{background:var(--bg-2);border-left:3px solid var(--accent);padding:10px 14px;margin-top:10px;font-size:12px;font-style:italic;color:var(--text-dim);line-height:1.5}
+.brain-quote{background:var(–bg-2);border-left:3px solid var(–accent);padding:10px 14px;margin-top:10px;font-size:12px;font-style:italic;color:var(–text-dim);line-height:1.5}
 
-  /* Login screen */
-  #loginScreen{
-    position:fixed; inset:0; background:linear-gradient(135deg,var(--bg-1) 0%,#0a0d18 100%);
-    display:none; align-items:center; justify-content:center; z-index:9999;
-  }
-  .login-box{
-    background:var(--bg-2); border:1px solid var(--border); border-radius:18px;
-    padding:40px 36px; max-width:380px; width:90%; text-align:center;
-    box-shadow:0 20px 60px rgba(0,0,0,0.5);
-  }
-  .login-logo{font-size:48px; margin-bottom:14px}
-  .login-box h1{font-size:22px; margin:0 0 10px; color:var(--text)}
-  .login-box p{font-size:13px; color:var(--text-dim); margin:0 0 24px; line-height:1.5}
-  .login-btn{
-    display:inline-flex; align-items:center; gap:10px; padding:11px 20px;
-    background:#fff; color:#1a1a1a; border:none; border-radius:8px;
-    font-size:14px; font-weight:600; cursor:pointer; transition:all 0.2s;
-    width:100%; justify-content:center;
-  }
-  .login-btn:hover{background:#f5f5f5; transform:translateY(-1px); box-shadow:0 4px 12px rgba(255,255,255,0.1)}
-  .login-footer{margin-top:20px; padding-top:16px; border-top:1px solid var(--border)}
-  .login-footer small{color:var(--text-muted); font-size:11px}
+/* Login screen */
+#loginScreen{
+position:fixed; inset:0; background:linear-gradient(135deg,var(–bg-1) 0%,#0a0d18 100%);
+display:none; align-items:center; justify-content:center; z-index:9999;
+}
+.login-box{
+background:var(–bg-2); border:1px solid var(–border); border-radius:18px;
+padding:40px 36px; max-width:380px; width:90%; text-align:center;
+box-shadow:0 20px 60px rgba(0,0,0,0.5);
+}
+.login-logo{font-size:48px; margin-bottom:14px}
+.login-box h1{font-size:22px; margin:0 0 10px; color:var(–text)}
+.login-box p{font-size:13px; color:var(–text-dim); margin:0 0 24px; line-height:1.5}
+.login-btn{
+display:inline-flex; align-items:center; gap:10px; padding:11px 20px;
+background:#fff; color:#1a1a1a; border:none; border-radius:8px;
+font-size:14px; font-weight:600; cursor:pointer; transition:all 0.2s;
+width:100%; justify-content:center;
+}
+.login-btn:hover{background:#f5f5f5; transform:translateY(-1px); box-shadow:0 4px 12px rgba(255,255,255,0.1)}
+.login-footer{margin-top:20px; padding-top:16px; border-top:1px solid var(–border)}
+.login-footer small{color:var(–text-muted); font-size:11px}
 
-  /* User badge */
-  .user-badge{
-    display:inline-flex; align-items:center; gap:6px;
-    padding:4px 10px 4px 4px; background:var(--bg-2); border:1px solid var(--border);
-    border-radius:20px; font-size:11px; color:var(--text-dim); cursor:pointer;
-    transition:all 0.2s;
-  }
-  .user-badge:hover{background:var(--bg-3); border-color:var(--border-strong)}
-  .user-badge img{width:22px; height:22px; border-radius:50%; object-fit:cover}
-  .user-email{max-width:140px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+/* User badge */
+.user-badge{
+display:inline-flex; align-items:center; gap:6px;
+padding:4px 10px 4px 4px; background:var(–bg-2); border:1px solid var(–border);
+border-radius:20px; font-size:11px; color:var(–text-dim); cursor:pointer;
+transition:all 0.2s;
+}
+.user-badge:hover{background:var(–bg-3); border-color:var(–border-strong)}
+.user-badge img{width:22px; height:22px; border-radius:50%; object-fit:cover}
+.user-email{max-width:140px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
 
-  /* Sync badge Firebase */
-  .sync-badge{padding:5px 10px;border-radius:8px;font-size:11px;font-weight:600;display:inline-flex;align-items:center;gap:4px;border:1px solid transparent}
-  .sync-badge.sync-ok{background:rgba(38,166,154,0.12);color:var(--green);border-color:rgba(38,166,154,0.32)}
-  .sync-badge.sync-syncing{background:rgba(41,98,255,0.12);color:var(--accent);border-color:rgba(41,98,255,0.32)}
-  .sync-badge.sync-error{background:rgba(239,83,80,0.12);color:var(--red);border-color:rgba(239,83,80,0.32)}
-  .sync-badge.sync-idle{background:rgba(138,147,184,0.1);color:var(--text-dim);border-color:var(--border-2)}
+/* Sync badge Firebase */
+.sync-badge{padding:5px 10px;border-radius:8px;font-size:11px;font-weight:600;display:inline-flex;align-items:center;gap:4px;border:1px solid transparent}
+.sync-badge.sync-ok{background:rgba(38,166,154,0.12);color:var(–green);border-color:rgba(38,166,154,0.32)}
+.sync-badge.sync-syncing{background:rgba(41,98,255,0.12);color:var(–accent);border-color:rgba(41,98,255,0.32)}
+.sync-badge.sync-error{background:rgba(239,83,80,0.12);color:var(–red);border-color:rgba(239,83,80,0.32)}
+.sync-badge.sync-idle{background:rgba(138,147,184,0.1);color:var(–text-dim);border-color:var(–border-2)}
 
-  /* Alert boxes */
-  .alert-box{margin-bottom:14px;display:flex;flex-direction:column;gap:8px}
-  .alert{padding:11px 14px;border-radius:10px;display:flex;align-items:center;gap:10px;font-size:12.5px;border:1px solid}
-  .alert span:first-child{font-size:16px;flex-shrink:0}
-  .alert-success{background:rgba(38,166,154,0.08);border-color:rgba(38,166,154,0.3);color:#26a69a}
-  .alert-info{background:rgba(41,98,255,0.08);border-color:rgba(41,98,255,0.3);color:#7ea4ff}
-  .alert-warn{background:rgba(255,167,38,0.08);border-color:rgba(255,167,38,0.3);color:#ffa726}
-  .alert-danger{background:rgba(239,83,80,0.08);border-color:rgba(239,83,80,0.3);color:#ef5350}
+/* Alert boxes */
+.alert-box{margin-bottom:14px;display:flex;flex-direction:column;gap:8px}
+.alert{padding:11px 14px;border-radius:10px;display:flex;align-items:center;gap:10px;font-size:12.5px;border:1px solid}
+.alert span:first-child{font-size:16px;flex-shrink:0}
+.alert-success{background:rgba(38,166,154,0.08);border-color:rgba(38,166,154,0.3);color:#26a69a}
+.alert-info{background:rgba(41,98,255,0.08);border-color:rgba(41,98,255,0.3);color:#7ea4ff}
+.alert-warn{background:rgba(255,167,38,0.08);border-color:rgba(255,167,38,0.3);color:#ffa726}
+.alert-danger{background:rgba(239,83,80,0.08);border-color:rgba(239,83,80,0.3);color:#ef5350}
 
-  /* Hidden values (privacy mode) */
-  body.privacy .hideable{filter:blur(7px);transition:filter .2s}
-  body.privacy .hideable:hover{filter:blur(0)}
+/* Hidden values (privacy mode) */
+body.privacy .hideable{filter:blur(7px);transition:filter .2s}
+body.privacy .hideable:hover{filter:blur(0)}
 
-  @media(max-width:700px){
-    .shell{padding:12px}
-    .kpi .value{font-size:18px}
-    .kpi.hero .value{font-size:22px}
-    .form-row,.form-row-3{grid-template-columns:1fr}
-    .type-selector{grid-template-columns:repeat(2,1fr)}
-    .stats-grid{grid-template-columns:1fr 1fr}
-  }
+@media(max-width:700px){
+.shell{padding:12px}
+.kpi .value{font-size:18px}
+.kpi.hero .value{font-size:22px}
+.form-row,.form-row-3{grid-template-columns:1fr}
+.type-selector{grid-template-columns:repeat(2,1fr)}
+.stats-grid{grid-template-columns:1fr 1fr}
+}
 </style>
+
 </head>
 <body>
 <div class="shell">
@@ -429,6 +431,7 @@
   </div>
 
   <!-- Tabs -->
+
   <div class="tabs">
     <button class="tab active" data-view="patrimonio" onclick="setView('patrimonio',this)"><span class="ico">💰</span><span class="label-full">Patrimonio</span></button>
     <button class="tab" data-view="forex" onclick="setView('forex',this)"><span class="ico">📊</span><span class="label-full">Forex</span></button>
@@ -437,6 +440,7 @@
   </div>
 
   <!-- ============================ PATRIMONIO VIEW ============================ -->
+
   <div class="view active" id="v-patrimonio">
     <div style="display:flex;justify-content:flex-end;margin-bottom:12px;gap:6px">
       <div class="chart-toggle">
@@ -446,308 +450,324 @@
       </div>
     </div>
 
-    <!-- 🧠 INTELLIGENZA FINANZIARIA -->
-    <div class="card brain-card">
-      <div class="card-header">
-        <div><h2>🧠 Intelligenza Finanziaria</h2><div class="sub">Coach personale · si aggiorna in tempo reale</div></div>
-        <button class="icon-btn" onclick="toggleBrainCard()" id="brainToggle" style="font-size:18px">▼</button>
-      </div>
-      <div class="card-body" id="brainBody">
-        <div id="brainContent"></div>
-      </div>
-    </div>
+```
+<!-- 🧠 INTELLIGENZA FINANZIARIA -->
+<div class="card brain-card">
+  <div class="card-header">
+    <div><h2>🧠 Intelligenza Finanziaria</h2><div class="sub">Coach personale · si aggiorna in tempo reale</div></div>
+    <button class="icon-btn" onclick="toggleBrainCard()" id="brainToggle" style="font-size:18px">▼</button>
+  </div>
+  <div class="card-body" id="brainBody">
+    <div id="brainContent"></div>
+  </div>
+</div>
 
-    <!-- 💳 ABBONAMENTI MENSILI -->
-    <div class="card" id="abbonCard">
-      <div class="card-header">
-        <div><h2>💳 Abbonamenti Ricorrenti</h2><div class="sub" id="abbonSub">Spese fisse mensili su Revolut</div></div>
-        <button class="icon-btn" onclick="toggleAbbonCard()" id="abbonToggle" style="font-size:18px">▼</button>
-      </div>
-      <div class="card-body" id="abbonBody">
-        <div id="abbonContent"></div>
-      </div>
-    </div>
+<!-- 💳 ABBONAMENTI MENSILI -->
+<div class="card" id="abbonCard">
+  <div class="card-header">
+    <div><h2>💳 Abbonamenti Ricorrenti</h2><div class="sub" id="abbonSub">Spese fisse mensili su Revolut</div></div>
+    <button class="icon-btn" onclick="toggleAbbonCard()" id="abbonToggle" style="font-size:18px">▼</button>
+  </div>
+  <div class="card-body" id="abbonBody">
+    <div id="abbonContent"></div>
+  </div>
+</div>
 
-    <div class="kpi-grid grid-4">
-      <div class="kpi hero">
-        <div class="kpi-top">
-          <div class="label">Patrimonio totale</div>
-          <div class="badge" id="kpiPatBadge">LIVE</div>
-        </div>
-        <div class="value mono hideable" id="kpiPatTotal">—</div>
-        <div class="delta">
-          <span class="delta-chip chip-pos" id="kpiPatDelta">—</span>
-          <span>P&L investimenti</span>
-        </div>
-      </div>
-      <div class="kpi">
-        <div class="kpi-top"><div class="label">Liquidità</div></div>
-        <div class="value mono hideable" id="kpiLiq">—</div>
-        <div class="delta"><span id="kpiLiqSub">conti correnti + cash broker</span></div>
-      </div>
-      <div class="kpi">
-        <div class="kpi-top"><div class="label">Investito</div></div>
-        <div class="value mono hideable" id="kpiInv">—</div>
-        <div class="delta"><span id="kpiInvSub">ETF + Fondi + Buoni</span></div>
-      </div>
-      <div class="kpi">
-        <div class="kpi-top"><div class="label">Forex Trading</div></div>
-        <div class="value mono hideable" id="kpiForex">—</div>
-        <div class="delta"><span id="kpiForexSub">Fineco CFD</span></div>
-      </div>
+<div class="kpi-grid grid-4">
+  <div class="kpi hero">
+    <div class="kpi-top">
+      <div class="label">Patrimonio totale</div>
+      <div class="badge" id="kpiPatBadge">LIVE</div>
     </div>
+    <div class="value mono hideable" id="kpiPatTotal">—</div>
+    <div class="delta">
+      <span class="delta-chip chip-pos" id="kpiPatDelta">—</span>
+      <span>P&L investimenti</span>
+    </div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-top"><div class="label">Liquidità</div></div>
+    <div class="value mono hideable" id="kpiLiq">—</div>
+    <div class="delta"><span id="kpiLiqSub">conti correnti + cash broker</span></div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-top"><div class="label">Investito</div></div>
+    <div class="value mono hideable" id="kpiInv">—</div>
+    <div class="delta"><span id="kpiInvSub">ETF + Fondi + Buoni</span></div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-top"><div class="label">Forex Trading</div></div>
+    <div class="value mono hideable" id="kpiForex">—</div>
+    <div class="delta"><span id="kpiForexSub">Fineco CFD</span></div>
+  </div>
+</div>
 
-    <div class="card">
-      <div class="card-header">
-        <div>
-          <h2>Andamento Patrimonio</h2>
-          <div class="sub">Crescita nel tempo (ricostruita dai movimenti)</div>
-        </div>
-      </div>
-      <div class="card-body">
-        <div class="chart-wrap" style="height:280px"><canvas id="patrimonioChart"></canvas></div>
-      </div>
+<div class="card">
+  <div class="card-header">
+    <div>
+      <h2>Andamento Patrimonio</h2>
+      <div class="sub">Crescita nel tempo (ricostruita dai movimenti)</div>
     </div>
+  </div>
+  <div class="card-body">
+    <div class="chart-wrap" style="height:280px"><canvas id="patrimonioChart"></canvas></div>
+  </div>
+</div>
 
-    <div class="card">
-      <div class="card-header">
-        <div>
-          <h2>Allocazione per Broker</h2>
-          <div class="sub">Click su una card per vedere il dettaglio</div>
-        </div>
-      </div>
-      <div class="card-body">
-        <div class="alloc-bar" id="allocBar"></div>
-        <div class="alloc-legend" id="allocLegend"></div>
-        <div style="height:16px"></div>
-        <div class="broker-cards" id="brokerCards"></div>
-      </div>
+<div class="card">
+  <div class="card-header">
+    <div>
+      <h2>Allocazione per Broker</h2>
+      <div class="sub">Click su una card per vedere il dettaglio</div>
     </div>
+  </div>
+  <div class="card-body">
+    <div class="alloc-bar" id="allocBar"></div>
+    <div class="alloc-legend" id="allocLegend"></div>
+    <div style="height:16px"></div>
+    <div class="broker-cards" id="brokerCards"></div>
+  </div>
+</div>
 
-    <div class="card">
-      <div class="card-header">
-        <div><h2>Tutti gli Asset</h2><div class="sub" id="assetsSub">Posizioni aggregate per broker</div></div>
-      </div>
-      <div class="card-body" id="assetList"></div>
-    </div>
+<div class="card">
+  <div class="card-header">
+    <div><h2>Tutti gli Asset</h2><div class="sub" id="assetsSub">Posizioni aggregate per broker</div></div>
+  </div>
+  <div class="card-body" id="assetList"></div>
+</div>
+```
+
   </div>
 
   <!-- ============================ FOREX VIEW ============================ -->
+
   <div class="view" id="v-forex">
     <div class="alert-box" id="forexAlerts"></div>
     <div class="kpi-grid grid-5" id="forexKpiGrid"></div>
 
-    <div class="goal-card" id="goalCard"></div>
+```
+<div class="goal-card" id="goalCard"></div>
 
-    <!-- Calendario Eventi & Scadenze -->
-    <div class="card" id="calendarCard">
-      <div class="card-header">
-        <div><h2 id="calendarHeaderTitle" style="cursor:pointer;user-select:none" onclick="toggleCalendar()">📅 Calendario Eventi & Scadenze <span id="calendarCollapseIcon" style="font-size:12px;color:var(--text-muted);margin-left:4px">▼</span></h2><div class="sub" id="calendarSub">News macro + scadenze finanziarie</div></div>
-        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
-          <div class="cal-nav" id="weekNavWrap" style="display:none">
-            <button onclick="changeCalWeek(-1)" title="Settimana precedente">‹</button>
-            <span class="month-label mono" id="weekNavLabel" style="font-size:11px;min-width:80px;text-align:center">—</span>
-            <button onclick="changeCalWeek(1)" title="Settimana successiva">›</button>
-            <button onclick="goToCurrentWeek()" id="weekTodayBtn" style="font-size:10px;padding:3px 7px;margin-left:2px">oggi</button>
-          </div>
-          <div class="chart-toggle" id="calendarTabsWrap">
-            <button class="active" data-caltab="news" onclick="setCalTab('news',this)">🗞️ News</button>
-            <button data-caltab="scadenze" onclick="setCalTab('scadenze',this)">📜 Scadenze</button>
-          </div>
-        </div>
+<!-- Calendario Eventi & Scadenze -->
+<div class="card" id="calendarCard">
+  <div class="card-header">
+    <div><h2 id="calendarHeaderTitle" style="cursor:pointer;user-select:none" onclick="toggleCalendar()">📅 Calendario Eventi & Scadenze <span id="calendarCollapseIcon" style="font-size:12px;color:var(--text-muted);margin-left:4px">▼</span></h2><div class="sub" id="calendarSub">News macro + scadenze finanziarie</div></div>
+    <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+      <div class="cal-nav" id="weekNavWrap" style="display:none">
+        <button onclick="changeCalWeek(-1)" title="Settimana precedente">‹</button>
+        <span class="month-label mono" id="weekNavLabel" style="font-size:11px;min-width:80px;text-align:center">—</span>
+        <button onclick="changeCalWeek(1)" title="Settimana successiva">›</button>
+        <button onclick="goToCurrentWeek()" id="weekTodayBtn" style="font-size:10px;padding:3px 7px;margin-left:2px">oggi</button>
       </div>
-      <div class="card-body" id="calendarBody">
-        <div id="newsBanner"></div>
-        <div id="calendarContent"></div>
-      </div>
-    </div>
-
-    <div class="main-2col">
-      <div class="card">
-        <div class="card-header">
-          <div><h2>Equity Curve</h2><div class="sub" id="chartSubtitle">P&L cumulativo (solo trade)</div></div>
-          <div class="chart-toggle">
-            <button data-range="7d" onclick="setChartRange('7d',this)">7G</button>
-            <button data-range="30d" onclick="setChartRange('30d',this)">30G</button>
-            <button data-range="ytd" onclick="setChartRange('ytd',this)">YTD</button>
-            <button class="active" data-range="all" onclick="setChartRange('all',this)">TUTTO</button>
-            <button data-range="projection" onclick="setChartRange('projection',this)">🔮 12M</button>
-          </div>
-        </div>
-        <div class="card-body">
-          <div class="chart-wrap"><canvas id="equityChart"></canvas></div>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-header"><div><h2>Statistiche</h2><div class="sub">Anno 2026</div></div></div>
-        <div class="card-body"><div class="stats-grid" id="statsGrid"></div></div>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="card-header">
-        <div><h2>Calendario P&L</h2><div class="sub" id="monthSubtitle">—</div></div>
-        <div class="cal-nav">
-          <button onclick="changeMonth(-1)">‹</button>
-          <span class="month-label mono" id="monthLabel">—</span>
-          <button onclick="changeMonth(1)">›</button>
-        </div>
-      </div>
-      <div class="card-body">
-        <div class="calendar" id="calendarGrid"></div>
-        <div id="weekSummaries"></div>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="card-header"><div><h2>Cassa & Movimenti non-trade</h2><div class="sub" id="cashCount">bonifici, prelievi, imposte, oneri</div></div></div>
-      <div class="card-body">
-        <div class="stats-grid" style="grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:10px" id="cashSummary"></div>
-        <div class="table-wrap">
-          <table>
-            <thead><tr><th>Data</th><th>Tipo</th><th>Desc</th><th style="text-align:right">Importo</th><th></th></tr></thead>
-            <tbody id="cashTxBody"></tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="card-header"><div><h2>Movimenti Forex</h2><div class="sub" id="txCount">0</div></div></div>
-      <div class="filter-pills">
-        <button class="pill" data-filter="all" onclick="setFilter('all',this)">Tutti</button>
-        <button class="pill active" data-filter="trade" onclick="setFilter('trade',this)">Solo trade</button>
-        <button class="pill" data-filter="step1" onclick="setFilter('step1',this)">Piano attuale</button>
-        <button class="pill" data-filter="legacy" onclick="setFilter('legacy',this)">Legacy</button>
-        <button class="pill" data-filter="deposit" onclick="setFilter('deposit',this)">Bonifici</button>
-        <button class="pill" data-filter="withdrawal" onclick="setFilter('withdrawal',this)">Prelievi</button>
-      </div>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>Data</th><th>Tipo</th><th>Desc</th><th style="text-align:right">Importo</th><th></th></tr></thead>
-          <tbody id="txBody"></tbody>
-        </table>
+      <div class="chart-toggle" id="calendarTabsWrap">
+        <button class="active" data-caltab="news" onclick="setCalTab('news',this)">🗞️ News</button>
+        <button data-caltab="scadenze" onclick="setCalTab('scadenze',this)">📜 Scadenze</button>
       </div>
     </div>
   </div>
+  <div class="card-body" id="calendarBody">
+    <div id="newsBanner"></div>
+    <div id="calendarContent"></div>
+  </div>
+</div>
 
-  <!-- ============================ ETF/INVESTIMENTI VIEW ============================ -->
-  <div class="view" id="v-etf">
-    <div class="alert-box" id="etfAlerts"></div>
-    <div class="kpi-grid grid-4" id="etfKpiGrid"></div>
-
-    <div class="card">
-      <div class="card-header">
-        <div>
-          <h2>Andamento Investimenti</h2>
-          <div class="sub">Crescita ETF + PAC nel tempo</div>
-        </div>
-        <div class="chart-toggle">
-          <button data-range="1d" onclick="setEtfRange('1d',this)">1G</button>
-          <button data-range="1w" onclick="setEtfRange('1w',this)">1S</button>
-          <button data-range="1m" onclick="setEtfRange('1m',this)">1M</button>
-          <button data-range="3m" onclick="setEtfRange('3m',this)">3M</button>
-          <button data-range="ytd" onclick="setEtfRange('ytd',this)">YTD</button>
-          <button class="active" data-range="all" onclick="setEtfRange('all',this)">TUTTO</button>
-        </div>
-      </div>
-      <div class="card-body">
-        <div class="chart-wrap" style="height:280px"><canvas id="etfLineChart"></canvas></div>
+<div class="main-2col">
+  <div class="card">
+    <div class="card-header">
+      <div><h2>Equity Curve</h2><div class="sub" id="chartSubtitle">P&L cumulativo (solo trade)</div></div>
+      <div class="chart-toggle">
+        <button data-range="7d" onclick="setChartRange('7d',this)">7G</button>
+        <button data-range="30d" onclick="setChartRange('30d',this)">30G</button>
+        <button data-range="ytd" onclick="setChartRange('ytd',this)">YTD</button>
+        <button class="active" data-range="all" onclick="setChartRange('all',this)">TUTTO</button>
+        <button data-range="projection" onclick="setChartRange('projection',this)">🔮 12M</button>
       </div>
     </div>
-
-    <div class="card">
-      <div class="card-header">
-        <div>
-          <h2>🔮 Proiezione Futuro (PAC attuale)</h2>
-          <div class="sub" id="projSub">Simulazione con interesse composto — scenari conservativo/medio/ottimistico</div>
-        </div>
-        <div class="chart-toggle">
-          <button class="active" data-years="10" onclick="setProjYears(10,this)">10A</button>
-          <button data-years="20" onclick="setProjYears(20,this)">20A</button>
-          <button data-years="30" onclick="setProjYears(30,this)">30A</button>
-          <button onclick="openPacModal()" style="padding:5px 10px">⚙️</button>
-        </div>
-      </div>
-      <div class="card-body">
-        <div class="chart-wrap" style="height:320px"><canvas id="projectionChart"></canvas></div>
-        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px" id="projScenarios"></div>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="card-header">
-        <div><h2>Portafoglio Investimenti</h2><div class="sub" id="etfSubtitle">Prezzi Yahoo Finance · ETF live</div></div>
-        <div class="chart-toggle">
-          <button class="active" id="etfRefreshBtn" onclick="refreshPrices()" style="padding:5px 12px">🔄 Aggiorna</button>
-        </div>
-      </div>
-      <div class="card-body" id="etfList"></div>
-    </div>
-
-    <div class="main-2col">
-      <div class="card">
-        <div class="card-header"><div><h2>Allocazione per ETF</h2></div></div>
-        <div class="card-body">
-          <div class="chart-wrap" style="height:340px"><canvas id="etfAllocChart"></canvas></div>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-header"><div><h2>Allocazione per Broker</h2></div></div>
-        <div class="card-body"><div id="brokerAlloc"></div></div>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="card-header"><div><h2>PAC Attivi</h2><div class="sub">Piani di accumulo programmati</div></div></div>
-      <div class="card-body" id="pacList"></div>
+    <div class="card-body">
+      <div class="chart-wrap"><canvas id="equityChart"></canvas></div>
     </div>
   </div>
+  <div class="card">
+    <div class="card-header"><div><h2>Statistiche</h2><div class="sub">Anno 2026</div></div></div>
+    <div class="card-body"><div class="stats-grid" id="statsGrid"></div></div>
+  </div>
+</div>
 
-  <!-- ============================ CONTO PERSONALE VIEW ============================ -->
-  <div class="view" id="v-conto">
-    <div class="alert-box" id="contoAlerts"></div>
-    <div class="kpi-grid grid-4" id="contoKpiGrid"></div>
-
-    <div class="main-2col">
-      <div class="card">
-        <div class="card-header">
-          <div><h2>Flusso Mensile</h2><div class="sub" id="contoFlowSub">Entrate vs Uscite per mese</div></div>
-          <div class="chart-toggle">
-            <button class="active" data-range="all" onclick="setContoRange('all',this)">TUTTO</button>
-            <button data-range="1y" onclick="setContoRange('1y',this)">1A</button>
-            <button data-range="6m" onclick="setContoRange('6m',this)">6M</button>
-          </div>
-        </div>
-        <div class="card-body">
-          <div class="chart-wrap" style="height:300px"><canvas id="contoFlowChart"></canvas></div>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-header"><div><h2>Spese per Categoria</h2><div class="sub" id="contoCatSub">—</div></div></div>
-        <div class="card-body" id="contoCatList"></div>
-      </div>
+<div class="card">
+  <div class="card-header">
+    <div><h2>Calendario P&L</h2><div class="sub" id="monthSubtitle">—</div></div>
+    <div class="cal-nav">
+      <button onclick="changeMonth(-1)">‹</button>
+      <span class="month-label mono" id="monthLabel">—</span>
+      <button onclick="changeMonth(1)">›</button>
     </div>
+  </div>
+  <div class="card-body">
+    <div class="calendar" id="calendarGrid"></div>
+    <div id="weekSummaries"></div>
+  </div>
+</div>
 
-    <div class="card">
-      <div class="card-header">
-        <div><h2>Movimenti Intesa</h2><div class="sub" id="contoTxCount">0</div></div>
-        <button class="btn primary" onclick="openContoModal()"><span style="font-size:14px">+</span> Nuovo movimento</button>
-      </div>
-      <div class="filter-pills" id="contoFilters">
-        <button class="pill active" data-filter="all" onclick="setContoFilter('all',this)">Tutti</button>
-      </div>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>Data</th><th>Categoria</th><th>Desc</th><th style="text-align:right">Importo</th><th></th></tr></thead>
-          <tbody id="contoTxBody"></tbody>
-        </table>
-      </div>
+<div class="card">
+  <div class="card-header"><div><h2>Cassa & Movimenti non-trade</h2><div class="sub" id="cashCount">bonifici, prelievi, imposte, oneri</div></div></div>
+  <div class="card-body">
+    <div class="stats-grid" style="grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:10px" id="cashSummary"></div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Data</th><th>Tipo</th><th>Desc</th><th style="text-align:right">Importo</th><th></th></tr></thead>
+        <tbody id="cashTxBody"></tbody>
+      </table>
     </div>
   </div>
 </div>
 
+<div class="card">
+  <div class="card-header"><div><h2>Movimenti Forex</h2><div class="sub" id="txCount">0</div></div></div>
+  <div class="filter-pills">
+    <button class="pill" data-filter="all" onclick="setFilter('all',this)">Tutti</button>
+    <button class="pill active" data-filter="trade" onclick="setFilter('trade',this)">Solo trade</button>
+    <button class="pill" data-filter="step1" onclick="setFilter('step1',this)">Piano attuale</button>
+    <button class="pill" data-filter="legacy" onclick="setFilter('legacy',this)">Legacy</button>
+    <button class="pill" data-filter="deposit" onclick="setFilter('deposit',this)">Bonifici</button>
+    <button class="pill" data-filter="withdrawal" onclick="setFilter('withdrawal',this)">Prelievi</button>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Data</th><th>Tipo</th><th>Desc</th><th style="text-align:right">Importo</th><th></th></tr></thead>
+      <tbody id="txBody"></tbody>
+    </table>
+  </div>
+</div>
+```
+
+  </div>
+
+  <!-- ============================ ETF/INVESTIMENTI VIEW ============================ -->
+
+  <div class="view" id="v-etf">
+    <div class="alert-box" id="etfAlerts"></div>
+    <div class="kpi-grid grid-4" id="etfKpiGrid"></div>
+
+```
+<div class="card">
+  <div class="card-header">
+    <div>
+      <h2>Andamento Investimenti</h2>
+      <div class="sub">Crescita ETF + PAC nel tempo</div>
+    </div>
+    <div class="chart-toggle">
+      <button data-range="1d" onclick="setEtfRange('1d',this)">1G</button>
+      <button data-range="1w" onclick="setEtfRange('1w',this)">1S</button>
+      <button data-range="1m" onclick="setEtfRange('1m',this)">1M</button>
+      <button data-range="3m" onclick="setEtfRange('3m',this)">3M</button>
+      <button data-range="ytd" onclick="setEtfRange('ytd',this)">YTD</button>
+      <button class="active" data-range="all" onclick="setEtfRange('all',this)">TUTTO</button>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="chart-wrap" style="height:280px"><canvas id="etfLineChart"></canvas></div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header">
+    <div>
+      <h2>🔮 Proiezione Futuro (PAC attuale)</h2>
+      <div class="sub" id="projSub">Simulazione con interesse composto — scenari conservativo/medio/ottimistico</div>
+    </div>
+    <div class="chart-toggle">
+      <button class="active" data-years="10" onclick="setProjYears(10,this)">10A</button>
+      <button data-years="20" onclick="setProjYears(20,this)">20A</button>
+      <button data-years="30" onclick="setProjYears(30,this)">30A</button>
+      <button onclick="openPacModal()" style="padding:5px 10px">⚙️</button>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="chart-wrap" style="height:320px"><canvas id="projectionChart"></canvas></div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px" id="projScenarios"></div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header">
+    <div><h2>Portafoglio Investimenti</h2><div class="sub" id="etfSubtitle">Prezzi Yahoo Finance · ETF live</div></div>
+    <div class="chart-toggle">
+      <button class="active" id="etfRefreshBtn" onclick="refreshPrices()" style="padding:5px 12px">🔄 Aggiorna</button>
+    </div>
+  </div>
+  <div class="card-body" id="etfList"></div>
+</div>
+
+<div class="main-2col">
+  <div class="card">
+    <div class="card-header"><div><h2>Allocazione per ETF</h2></div></div>
+    <div class="card-body">
+      <div class="chart-wrap" style="height:340px"><canvas id="etfAllocChart"></canvas></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header"><div><h2>Allocazione per Broker</h2></div></div>
+    <div class="card-body"><div id="brokerAlloc"></div></div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header"><div><h2>PAC Attivi</h2><div class="sub">Piani di accumulo programmati</div></div></div>
+  <div class="card-body" id="pacList"></div>
+</div>
+```
+
+  </div>
+
+  <!-- ============================ CONTO PERSONALE VIEW ============================ -->
+
+  <div class="view" id="v-conto">
+    <div class="alert-box" id="contoAlerts"></div>
+    <div class="kpi-grid grid-4" id="contoKpiGrid"></div>
+
+```
+<div class="main-2col">
+  <div class="card">
+    <div class="card-header">
+      <div><h2>Flusso Mensile</h2><div class="sub" id="contoFlowSub">Entrate vs Uscite per mese</div></div>
+      <div class="chart-toggle">
+        <button class="active" data-range="all" onclick="setContoRange('all',this)">TUTTO</button>
+        <button data-range="1y" onclick="setContoRange('1y',this)">1A</button>
+        <button data-range="6m" onclick="setContoRange('6m',this)">6M</button>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="chart-wrap" style="height:300px"><canvas id="contoFlowChart"></canvas></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header"><div><h2>Spese per Categoria</h2><div class="sub" id="contoCatSub">—</div></div></div>
+    <div class="card-body" id="contoCatList"></div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header">
+    <div><h2>Movimenti Intesa</h2><div class="sub" id="contoTxCount">0</div></div>
+    <button class="btn primary" onclick="openContoModal()"><span style="font-size:14px">+</span> Nuovo movimento</button>
+  </div>
+  <div class="filter-pills" id="contoFilters">
+    <button class="pill active" data-filter="all" onclick="setContoFilter('all',this)">Tutti</button>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Data</th><th>Categoria</th><th>Desc</th><th style="text-align:right">Importo</th><th></th></tr></thead>
+      <tbody id="contoTxBody"></tbody>
+    </table>
+  </div>
+</div>
+```
+
+  </div>
+</div>
+
 <!-- Modal -->
+
 <div class="modal-overlay" id="modal">
   <div class="modal">
     <div class="modal-header">
@@ -791,6 +811,7 @@
 </div>
 
 <!-- Modal Prezzi ETF Manuali -->
+
 <div class="modal-overlay" id="manualPricesModal">
   <div class="modal" style="max-width:560px">
     <div class="modal-header">
@@ -809,6 +830,7 @@
 </div>
 
 <!-- Modal Aggiusta saldi -->
+
 <div class="modal-overlay" id="cashModal">
   <div class="modal">
     <div class="modal-header">
@@ -861,6 +883,7 @@
 </div>
 
 <!-- Modal Broker Detail -->
+
 <div class="modal-overlay" id="brokerModal">
   <div class="modal" style="max-width:640px">
     <div class="modal-header">
@@ -872,6 +895,7 @@
 </div>
 
 <!-- Modal PAC config -->
+
 <div class="modal-overlay" id="pacModal">
   <div class="modal">
     <div class="modal-header">
@@ -905,6 +929,7 @@
 </div>
 
 <!-- Modal Conto Personale -->
+
 <div class="modal-overlay" id="contoModal">
   <div class="modal">
     <div class="modal-header">
@@ -8049,5 +8074,6 @@ setTimeout(startPriceAutoRefresh, 10000);
 
 renderActiveView();
 </script>
+
 </body>
 </html>
