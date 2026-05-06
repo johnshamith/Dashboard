@@ -131,23 +131,21 @@ html, body { background: var(--bg); color: var(--text); font-family: -apple-syst
   @supports (bottom: env(safe-area-inset-bottom)) {
     .fab { bottom: 30px; }
   }
-  /* Layout 2 colonne pagina Oggi */
-  .view#view-today {
+  /* Layout 2 colonne pagina Oggi (solo se attiva!) */
+  .view#view-today.active {
     display: grid;
     grid-template-columns: 1.4fr 1fr;
     gap: 20px;
   }
-  .view#view-today.active { display: grid; }
-  .view#view-today > .hero { grid-column: 1 / -1; }
-  .view#view-today > .stat-grid { grid-column: 1 / -1; grid-template-columns: repeat(4, 1fr); }
-  .view#view-today > .coach { grid-column: 1 / -1; }
-  /* Layout 2 colonne pagina Conti */
-  .view#view-accounts {
+  .view#view-today.active > .hero { grid-column: 1 / -1; }
+  .view#view-today.active > .stat-grid { grid-column: 1 / -1; grid-template-columns: repeat(4, 1fr); }
+  .view#view-today.active > .coach { grid-column: 1 / -1; }
+  /* Layout 2 colonne pagina Conti (solo se attiva!) */
+  .view#view-accounts.active {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 20px;
   }
-  .view#view-accounts.active { display: grid; }
   /* Trade page wider */
   .view#view-trade .stat-grid { grid-template-columns: repeat(4, 1fr); }
   .hero-amount { font-size: 48px; }
@@ -3377,10 +3375,18 @@ function renderCoach(cash, monthTx, monthExpenses){
   const now = new Date();
   const today = now.toISOString().slice(0,10);
 
-  // BUDGET FISSO MENSILE = €130 spendibili (pensione 1032 - PAC 250 - Salvadanaio 600 - Fissi 50)
-  // Più semplice e onesto del calcolo dinamico (che dava cifre troppo basse)
-  const monthBudget = 130;
-  const weekBudget = monthBudget / 4.33; // ~€30/sett
+  // BUDGET REALE = pensione - PAC - abbonamenti (TUTTO il disponibile)
+  // Salvadanaio NON sottratto: è una scelta flessibile, non obbligo
+  // Quando preli dal salvadanaio per emergenza, è normale, non "rosso"
+  const PENSIONE = 1032.09;
+  const PAC_MENSILE = 250;
+  // Calcolo abbonamenti veri dal state
+  const subsMonthly = (state.abbonamenti || []).reduce((s,a) => {
+    return s + (a.frequenza === 'annuale' ? a.importo/12 : a.importo);
+  }, 0);
+
+  const monthBudget = PENSIONE - PAC_MENSILE - subsMonthly;  // ~€716
+  const weekBudget = monthBudget / 4.33;  // ~€165/sett
 
   // Settimana corrente (lun-dom)
   const dow = now.getDay() === 0 ? 6 : now.getDay() - 1;
@@ -3391,6 +3397,7 @@ function renderCoach(cash, monthTx, monthExpenses){
   // Mese corrente
   const monthStart = today.slice(0,7) + '-01';
 
+  // Spese vere (esclude trasferimenti tra propri conti, salvadanaio, investimento)
   const liveCategories = (c) => !['salvadanaio_in','salvadanaio_out','bonifico_out','bonifico_in','investimento','pensione'].includes(c);
 
   const weekExpenses = state.transactions
@@ -3407,32 +3414,35 @@ function renderCoach(cash, monthTx, monthExpenses){
   const lastDay = new Date(now.getFullYear(), now.getMonth()+1, 0).getDate();
   const daysToPension = Math.max(1, (lastDay - now.getDate()) + 1);
 
+  // Soldi salvadanaio (per info — uso il parametro cash già passato)
+  const salvadanaio = cash.intesa_salvadanaio || 0;
+
   let cls, light, msg, sub;
   if(monthExpensesReal > monthBudget){
     cls = 'red';
     light = '🔴 STOP';
-    msg = `Sforato budget mese`;
-    sub = `Speso €${monthExpensesReal.toFixed(0)} di €${monthBudget} disponibili. Stai attingendo dal salvadanaio. Resta a casa fino al ${daysToPension > 1 ? 'prossimo' : ''} stipendio.`;
+    msg = `Sforato budget mese di €${(monthExpensesReal - monthBudget).toFixed(0)}`;
+    sub = `Speso €${monthExpensesReal.toFixed(0)} di €${monthBudget.toFixed(0)} pensione. Hai €${salvadanaio.toFixed(0)} nel salvadanaio se serve.`;
   } else if(weekExpenses > weekBudget * 1.5){
     cls = 'red';
     light = '🔴 ATTENZIONE FORTE';
-    msg = `Spese settimana troppo alte`;
-    sub = `Speso €${weekExpenses.toFixed(0)} (budget €${weekBudget.toFixed(0)}/sett). Fermati per qualche giorno.`;
+    msg = `Settimana costosa: €${weekExpenses.toFixed(0)}`;
+    sub = `Budget settimana €${weekBudget.toFixed(0)}. Rallenta nei prossimi giorni. Mese: ancora €${monthRemaining.toFixed(0)}.`;
   } else if(weekExpenses > weekBudget){
     cls = 'gold';
     light = '🟡 RALLENTA';
-    msg = `Sforato budget settimana di €${(weekExpenses-weekBudget).toFixed(0)}`;
+    msg = `Sforato sett. di €${(weekExpenses-weekBudget).toFixed(0)}`;
     sub = `Recupera nei prossimi giorni. Budget mese: ancora €${monthRemaining.toFixed(0)} disponibili.`;
-  } else if(weekExpenses > weekBudget * 0.7){
+  } else if(weekExpenses > weekBudget * 0.75){
     cls = 'gold';
     light = '🟡 ATTENZIONE';
     msg = `Restano €${weekRemaining.toFixed(0)} questa settimana`;
-    sub = `Hai usato ${(weekExpenses/weekBudget*100).toFixed(0)}% del budget settimana. Spendi solo essenziale.`;
+    sub = `Hai usato ${(weekExpenses/weekBudget*100).toFixed(0)}% del budget. Mese: ancora €${monthRemaining.toFixed(0)} totali.`;
   } else {
     cls = 'green';
     light = '🟢 OK';
     msg = `Disponibili €${weekRemaining.toFixed(0)} questa settimana`;
-    sub = `Budget mese: €${monthRemaining.toFixed(0)} ancora. Prossima pensione in ${daysToPension}gg.`;
+    sub = `Mese: €${monthRemaining.toFixed(0)} ancora. Pensione in ${daysToPension}gg. Salvadanaio: €${salvadanaio.toFixed(0)}.`;
   }
 
   const box = document.getElementById('coachBox');
@@ -3754,6 +3764,8 @@ function saveTx(){
   }
 
   saveState();
+  // Forzo sync Firebase immediato (no debounce) per cross-device
+  if(typeof firebaseSyncNow === 'function') firebaseSyncNow();
   closeModal('modalTx');
   // Re-render TUTTO per essere sicuri che ogni vista mostri i nuovi dati
   renderToday();
@@ -3953,27 +3965,54 @@ function renderPatrimonioChart(){
   canvas.height = H * dpr;
   ctx.scale(dpr, dpr);
 
-  // Calcolo patrimonio per gli ultimi 30 giorni basato su transazioni
+  // Calcolo patrimonio per gli ultimi 30 giorni
+  // Approccio: parto dal patrimonio attuale e vado indietro sottraendo
+  // i movimenti che modificano il bilancio totale
   const today = new Date();
+  today.setHours(23, 59, 59, 999);  // fine giornata
   const days = 30;
   const series = [];
-  const cashNow = getLiveBalances();
   const totalNow = getTotalPatrimonio();
 
-  // Vado all'indietro: per ogni giorno, sottraggo le transazioni successive
+  // Funzione: dato un patrimonio "dopo" e le transazioni del giorno, calcola il patrimonio "prima"
+  // I movimenti che cambiano patrimonio totale: solo entrate/uscite dal sistema (no trasferimenti interni)
+  function isPatrimonioChange(t){
+    // Pensione, stipendio, bonifici esterni IN: aggiungono al patrimonio
+    // Spese reali (cibo, bar, multe, abbonamenti, regali esterni): tolgono dal patrimonio
+    // Trasferimenti interni (salvadanaio, bonifico tra propri conti, investimento): NON cambiano patrimonio
+    const internal = ['salvadanaio_in','salvadanaio_out','bonifico_out','bonifico_in','investimento'];
+    return !internal.includes(t.category);
+  }
+
+  // Patrimonio per ogni giorno
   let runningTotal = totalNow;
-  series.push({date: today.toISOString().slice(0,10), value: totalNow});
-  for(let i = 1; i < days; i++){
+  for(let i = 0; i <= days; i++){
     const d = new Date(today);
     d.setDate(today.getDate() - i);
     const dStr = d.toISOString().slice(0,10);
-    // Sottrai transazioni di quel giorno (vado indietro)
-    const dayTx = state.transactions.filter(t => t.date === series[0].date);
-    // Semplificazione: assumiamo movimenti netti del giorno
-    // Per ora linea piatta + variazioni dai trade forex
-    const dayTrades = state.forexTrades.filter(t => t.date === dStr);
-    const dayPnl = dayTrades.reduce((s,t) => s + (t.amount || 0), 0);
-    runningTotal -= dayPnl;
+
+    if(i === 0){
+      series.push({date: dStr, value: runningTotal});
+      continue;
+    }
+
+    // Trovo movimenti del giorno corrente (i giorni vanno verso il passato)
+    // Ogni movimento del giorno X ha modificato il patrimonio da "ieri X-1" a "oggi X"
+    // Quindi se sto calcolando il giorno passato, devo SOTTRARRE le transazioni del giorno SUCCESSIVO
+    const dayAfter = new Date(d);
+    dayAfter.setDate(d.getDate() + 1);
+    const dayAfterStr = dayAfter.toISOString().slice(0,10);
+
+    // Tx di "oggi futuro": questi cambiamenti vanno annullati per andare al giorno precedente
+    const txDayAfter = state.transactions
+      .filter(t => t.date === dayAfterStr && isPatrimonioChange(t))
+      .reduce((s,t) => s + (t.amount || 0), 0);
+    const tradesDayAfter = state.forexTrades
+      .filter(t => t.date === dayAfterStr && t.type === 'trade')
+      .reduce((s,t) => s + (t.amount || 0), 0);
+
+    // Sottraggo per andare indietro
+    runningTotal -= (txDayAfter + tradesDayAfter);
     series.unshift({date: dStr, value: runningTotal});
   }
 
@@ -4233,12 +4272,43 @@ async function firebaseSync(){
   if(!firebaseUser || !firebaseDb) return;
   clearTimeout(firebaseSyncTimeout);
   firebaseSyncTimeout = setTimeout(async () => {
-    try {
-      state.lastUpdate = Date.now();
-      const ref = window._fb.doc(firebaseDb, 'users', firebaseUser.uid);
-      await window._fb.setDoc(ref, state);
-    } catch(e){ console.error('Firebase sync error', e); }
-  }, 2000);
+    await firebaseSyncNow();
+  }, 1500);
+}
+
+// Sync immediato senza debounce (per movimenti importanti)
+async function firebaseSyncNow(){
+  if(!firebaseUser || !firebaseDb) return;
+  try {
+    state.lastUpdate = Date.now();
+    const ref = window._fb.doc(firebaseDb, 'users', firebaseUser.uid);
+    await window._fb.setDoc(ref, state);
+    console.log('✓ Synced to Firebase');
+  } catch(e){
+    console.error('Firebase sync error', e);
+    toast('Sync fallita: ' + e.message);
+  }
+}
+
+// Listener real-time: quando i dati cambiano sul server (da altro device), aggiorno qui
+let firebaseListener = null;
+function setupFirebaseListener(){
+  if(!firebaseUser || !firebaseDb) return;
+  if(firebaseListener) firebaseListener();  // chiudi vecchio listener
+  const ref = window._fb.doc(firebaseDb, 'users', firebaseUser.uid);
+  firebaseListener = window._fb.onSnapshot(ref, (snap) => {
+    if(!snap.exists()) return;
+    const remote = snap.data();
+    // Se i dati remoti sono più recenti, aggiorno localmente
+    if(remote.lastUpdate && (!state.lastUpdate || remote.lastUpdate > state.lastUpdate)){
+      const remoteTime = new Date(remote.lastUpdate).toLocaleTimeString('it-IT');
+      Object.assign(state, remote);
+      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch(e){}
+      // Re-render senza chiamare saveState (eviterei loop infinito)
+      switchTab(currentTab);
+      console.log('↓ Aggiornato da altro device alle', remoteTime);
+    }
+  });
 }
 
 // === INIT ===
