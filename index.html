@@ -88,6 +88,79 @@ html, body { background: var(--bg); color: var(--text); font-family: -apple-syst
 /* === MAIN === */
 .main { max-width: 720px; margin: 0 auto; padding: 16px; padding-bottom: 100px; }
 
+/* === LAYOUT PC LARGO (>= 1024px) === */
+@media (min-width: 1024px) {
+  body { font-size: 15px; }
+  .app-header { padding: 16px 24px; }
+  .app-title { font-size: 20px; }
+  .main {
+    max-width: 1200px;
+    padding: 24px;
+    padding-bottom: 24px;
+  }
+  /* Tabs in alto invece che in basso */
+  .tabs {
+    position: static;
+    background: transparent;
+    backdrop-filter: none;
+    border-top: none;
+    grid-template-columns: repeat(4, max-content);
+    justify-content: center;
+    padding: 0;
+    gap: 4px;
+    margin-bottom: 20px;
+  }
+  .tab {
+    padding: 10px 24px;
+    border-radius: 12px;
+    flex-direction: row;
+    gap: 8px;
+    font-size: 14px;
+  }
+  .tab.active { background: var(--bg-card); border: 1px solid var(--gold); }
+  .tab-icon { font-size: 16px; }
+  /* FAB diventa bottone normale in alto */
+  .fab {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 64px;
+    height: 64px;
+    font-size: 32px;
+  }
+  @supports (bottom: env(safe-area-inset-bottom)) {
+    .fab { bottom: 30px; }
+  }
+  /* Layout 2 colonne pagina Oggi */
+  .view#view-today {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 20px;
+  }
+  .view#view-today.active { display: grid; }
+  .view#view-today > .hero { grid-column: 1 / -1; }
+  .view#view-today > .stat-grid { grid-column: 1 / -1; grid-template-columns: repeat(4, 1fr); }
+  .view#view-today > .coach { grid-column: 1 / -1; }
+  /* Layout 2 colonne pagina Conti */
+  .view#view-accounts {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  .view#view-accounts.active { display: grid; }
+  /* Trade page wider */
+  .view#view-trade .stat-grid { grid-template-columns: repeat(4, 1fr); }
+  .hero-amount { font-size: 48px; }
+  .stat-value { font-size: 24px; }
+}
+
+/* === LAYOUT TABLET (768-1024) === */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .main { max-width: 900px; padding: 20px; }
+  .stat-grid { grid-template-columns: repeat(4, 1fr); }
+  .hero-amount { font-size: 42px; }
+}
+
 /* === HERO PATRIMONIO === */
 .hero {
   background: linear-gradient(135deg, var(--bg-card), var(--bg-soft));
@@ -254,8 +327,8 @@ html, body { background: var(--bg); color: var(--text); font-family: -apple-syst
 /* === FAB === */
 .fab {
   position: fixed;
-  bottom: 24px;
-  right: 24px;
+  bottom: 88px;  /* sopra la barra tab in basso (~70px + safe area) */
+  right: 20px;
   width: 56px;
   height: 56px;
   border-radius: 50%;
@@ -271,6 +344,9 @@ html, body { background: var(--bg); color: var(--text); font-family: -apple-syst
   display: flex;
   align-items: center;
   justify-content: center;
+}
+@supports (bottom: env(safe-area-inset-bottom)) {
+  .fab { bottom: calc(88px + env(safe-area-inset-bottom)); }
 }
 .fab:active { transform: scale(0.94); }
 
@@ -559,6 +635,17 @@ html, body { background: var(--bg); color: var(--text); font-family: -apple-syst
       <div class="account-list" id="accountListShort"></div>
     </div>
 
+    <div class="section" id="patrimonioChartSection">
+      <div class="section-title">📊 Andamento ultimi 30 giorni</div>
+      <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:16px">
+        <canvas id="patrimonioChart" style="width:100%; height:160px"></canvas>
+        <div style="display:flex;justify-content:space-between;margin-top:8px;font-size:11px;color:var(--text-muted)">
+          <span id="chartStartLabel">30g fa</span>
+          <span id="chartEndLabel">Oggi</span>
+        </div>
+      </div>
+    </div>
+
     <div class="section">
       <div class="section-title">Ultimi movimenti</div>
       <div class="tx-list" id="recentTxList"></div>
@@ -605,6 +692,27 @@ html, body { background: var(--bg); color: var(--text); font-family: -apple-syst
        style="display:flex; align-items:center; justify-content:center; gap:10px; background:linear-gradient(135deg,#2962ff,#1e3a8a); color:white; padding:14px; border-radius:12px; text-decoration:none; font-weight:600; margin-bottom:16px">
       📊 Apri TradingView Live
     </a>
+
+    <div class="section">
+      <div class="section-title">📅 Calendario trade <span id="calMonthLabel" style="color:var(--gold);text-transform:none;letter-spacing:0">Maggio 2026</span></div>
+      <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:14px">
+        <div style="display:flex;justify-content:space-between;margin-bottom:12px;align-items:center">
+          <button class="icon-btn" onclick="changeCalMonth(-1)" style="width:28px;height:28px;font-size:14px">‹</button>
+          <span id="calMonthTitle" style="font-size:13px;font-weight:600">Maggio 2026</span>
+          <button class="icon-btn" onclick="changeCalMonth(1)" style="width:28px;height:28px;font-size:14px">›</button>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:3px;font-size:10px;color:var(--text-muted);text-align:center;margin-bottom:6px">
+          <div>L</div><div>M</div><div>M</div><div>G</div><div>V</div><div>S</div><div>D</div>
+        </div>
+        <div id="calendarGrid" style="display:grid;grid-template-columns:repeat(7,1fr);gap:3px"></div>
+        <div style="display:flex;gap:14px;margin-top:14px;font-size:10.5px;justify-content:center;color:var(--text-muted);flex-wrap:wrap">
+          <span>🟢 Win</span>
+          <span>🔴 Loss</span>
+          <span>⚪ Niente</span>
+          <span style="color:var(--text-dim)" id="calMonthSummary"></span>
+        </div>
+      </div>
+    </div>
 
     <div class="section">
       <div class="section-title">Ultimi trade</div>
@@ -738,6 +846,44 @@ html, body { background: var(--bg); color: var(--text); font-family: -apple-syst
       <div style="font-size:12px; color:var(--text-muted); margin-bottom:8px">ACCOUNT</div>
       <div id="userInfoBox" style="font-size:13px; color:var(--text-dim); padding:8px 0"></div>
       <button class="btn btn-block" style="margin-top:8px; text-align:left" onclick="logout()">🚪 Esci da Google</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: Abbonamento Aggiungi/Modifica -->
+<div class="modal-bg" id="modalSub">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title" id="modalSubTitle">Nuovo abbonamento</span>
+      <button class="icon-btn" onclick="closeModal('modalSub')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label class="form-label">Nome</label>
+        <input class="form-input" type="text" id="subNome" placeholder="es. Netflix, Spotify...">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Importo €</label>
+          <input class="form-input" type="number" step="0.01" id="subImporto" placeholder="9.99">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Frequenza</label>
+          <select class="form-select" id="subFreq">
+            <option value="mensile">📅 Mensile</option>
+            <option value="annuale">🗓️ Annuale</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Note (opzionale)</label>
+        <input class="form-input" type="text" id="subNote" placeholder="es. Piano famiglia">
+      </div>
+      <div class="btn-row">
+        <button class="btn" onclick="closeModal('modalSub')" style="flex:1">Annulla</button>
+        <button class="btn" id="subDeleteBtn" onclick="deleteSubFromModal()" style="flex:1; display:none; background:rgba(239,68,68,0.15); color:var(--red); border-color:rgba(239,68,68,0.3)">🗑️ Elimina</button>
+        <button class="btn btn-primary" onclick="saveSubFromModal()" style="flex:1">Salva</button>
+      </div>
     </div>
   </div>
 </div>
@@ -3134,7 +3280,7 @@ function toast(msg){
 // === SALDI LIVE ===
 function getLiveBalances(){
   const live = {...CASH_BALANCES};
-  // Override manuali
+  // Override manuali (saldi modificati dall'utente in "Aggiusta saldi")
   if(state.cashOverride){
     Object.keys(state.cashOverride).forEach(k => {
       if(state.cashOverride[k] !== null && state.cashOverride[k] !== undefined){
@@ -3142,24 +3288,28 @@ function getLiveBalances(){
       }
     });
   }
-  // Aggiorno saldi Intesa basato su transazioni dopo cutoff
+  // CUTOFF: i seed Intesa originali contengono transazioni fino a 2026-05-05
+  // Qualsiasi transazione DOPO questa data è nuova (manuale o successive aggiunte)
   const cutoff = '2026-05-05';
   state.transactions
-    .filter(t => t.date > cutoff && (t.account === 'intesa_cc' || t.account === 'intesa_salvadanaio' || !t.account))
+    .filter(t => t.date > cutoff)
     .forEach(t => {
+      const account = t.account || 'intesa_cc';
       if(t.category === 'salvadanaio_in'){
+        // Versamento al salvadanaio: -CC, +Salvadanaio
         live.intesa_cc += t.amount; // negativo
         live.intesa_salvadanaio += Math.abs(t.amount);
       } else if(t.category === 'salvadanaio_out'){
+        // Prelievo dal salvadanaio: +CC, -Salvadanaio
         live.intesa_cc += Math.abs(t.amount);
         live.intesa_salvadanaio -= Math.abs(t.amount);
       } else {
-        // Default: tocca intesa_cc se non specificato altrimenti
-        if(t.account === 'intesa_salvadanaio'){
-          live.intesa_salvadanaio += t.amount;
-        } else {
-          live.intesa_cc += t.amount;
-        }
+        // Movimento normale sul conto specificato
+        if(account === 'intesa_salvadanaio') live.intesa_salvadanaio += t.amount;
+        else if(account === 'fineco') live.fineco_trading += t.amount;
+        else if(account === 'revolut') live.revolut_saldo += t.amount;
+        else if(account === 'poste_libretto') live.poste_libretto += t.amount;
+        else live.intesa_cc += t.amount;
       }
     });
   return live;
@@ -3218,47 +3368,71 @@ function renderToday(){
 
   // Ultimi 5 movimenti
   renderRecentTransactions();
+
+  // Grafico patrimonio
+  setTimeout(() => renderPatrimonioChart(), 50);
 }
 
 function renderCoach(cash, monthTx, monthExpenses){
-  // Budget mensile = pensione - fissi - PAC - salvadanaio
-  const monthBudget = 288;
-  const weekBudget = monthBudget / 4;
-
-  // Settimana corrente
   const now = new Date();
+  const today = now.toISOString().slice(0,10);
+
+  // BUDGET FISSO MENSILE = €130 spendibili (pensione 1032 - PAC 250 - Salvadanaio 600 - Fissi 50)
+  // Più semplice e onesto del calcolo dinamico (che dava cifre troppo basse)
+  const monthBudget = 130;
+  const weekBudget = monthBudget / 4.33; // ~€30/sett
+
+  // Settimana corrente (lun-dom)
   const dow = now.getDay() === 0 ? 6 : now.getDay() - 1;
   const monday = new Date(now);
   monday.setDate(now.getDate() - dow);
   const mondayStr = monday.toISOString().slice(0,10);
-  const today = now.toISOString().slice(0,10);
+
+  // Mese corrente
+  const monthStart = today.slice(0,7) + '-01';
 
   const liveCategories = (c) => !['salvadanaio_in','salvadanaio_out','bonifico_out','bonifico_in','investimento','pensione'].includes(c);
+
   const weekExpenses = state.transactions
     .filter(t => t.date >= mondayStr && t.date <= today && t.amount < 0 && liveCategories(t.category))
     .reduce((s,t) => s + Math.abs(t.amount), 0);
-  const weekRemaining = Math.max(0, weekBudget - weekExpenses);
+  const monthExpensesReal = state.transactions
+    .filter(t => t.date >= monthStart && t.date <= today && t.amount < 0 && liveCategories(t.category))
+    .reduce((s,t) => s + Math.abs(t.amount), 0);
 
-  // Giorni alla pensione (1 del mese)
+  const weekRemaining = Math.max(0, weekBudget - weekExpenses);
+  const monthRemaining = Math.max(0, monthBudget - monthExpensesReal);
+
+  // Giorni alla prossima pensione
   const lastDay = new Date(now.getFullYear(), now.getMonth()+1, 0).getDate();
-  const daysToPension = (lastDay - now.getDate()) + 1;
+  const daysToPension = Math.max(1, (lastDay - now.getDate()) + 1);
 
   let cls, light, msg, sub;
-  if(weekExpenses > weekBudget){
+  if(monthExpensesReal > monthBudget){
     cls = 'red';
     light = '🔴 STOP';
-    msg = 'Hai sforato il budget settimana';
-    sub = `Speso €${weekExpenses.toFixed(0)} di €${weekBudget.toFixed(0)}. Resta a casa fino a lunedì.`;
-  } else if(weekExpenses > weekBudget * 0.75){
+    msg = `Sforato budget mese`;
+    sub = `Speso €${monthExpensesReal.toFixed(0)} di €${monthBudget} disponibili. Stai attingendo dal salvadanaio. Resta a casa fino al ${daysToPension > 1 ? 'prossimo' : ''} stipendio.`;
+  } else if(weekExpenses > weekBudget * 1.5){
+    cls = 'red';
+    light = '🔴 ATTENZIONE FORTE';
+    msg = `Spese settimana troppo alte`;
+    sub = `Speso €${weekExpenses.toFixed(0)} (budget €${weekBudget.toFixed(0)}/sett). Fermati per qualche giorno.`;
+  } else if(weekExpenses > weekBudget){
+    cls = 'gold';
+    light = '🟡 RALLENTA';
+    msg = `Sforato budget settimana di €${(weekExpenses-weekBudget).toFixed(0)}`;
+    sub = `Recupera nei prossimi giorni. Budget mese: ancora €${monthRemaining.toFixed(0)} disponibili.`;
+  } else if(weekExpenses > weekBudget * 0.7){
     cls = 'gold';
     light = '🟡 ATTENZIONE';
-    msg = `Hai usato ${(weekExpenses/weekBudget*100).toFixed(0)}% del budget`;
-    sub = `Restano €${weekRemaining.toFixed(0)} questa settimana. Spendi solo essenziale.`;
+    msg = `Restano €${weekRemaining.toFixed(0)} questa settimana`;
+    sub = `Hai usato ${(weekExpenses/weekBudget*100).toFixed(0)}% del budget settimana. Spendi solo essenziale.`;
   } else {
     cls = 'green';
     light = '🟢 OK';
     msg = `Disponibili €${weekRemaining.toFixed(0)} questa settimana`;
-    sub = `Prossima pensione tra ${daysToPension} giorni. Continua così.`;
+    sub = `Budget mese: €${monthRemaining.toFixed(0)} ancora. Prossima pensione in ${daysToPension}gg.`;
   }
 
   const box = document.getElementById('coachBox');
@@ -3327,6 +3501,16 @@ function renderAccounts(){
     {name: BUONI_POSTALI.length ? BUONI_POSTALI.length+' Buoni Postali' : 'Buoni Postali', icon: '🏦', value: cash.poste_buoni || 0, bg: 'rgba(236,64,122,0.15)', sub: 'Rendimento fisso'},
     {name: 'Intesa Investo (Eurizon)', icon: '🏛️', value: getEurizonValue(), bg: 'rgba(41,98,255,0.15)', sub: 'ETF + Fondo pensione'},
   ];
+
+  // Calcolo totali
+  const myTotal = myAccounts.reduce((s,a) => s + (a.value || 0), 0);
+  const papaTotal = papaAccounts.reduce((s,a) => s + (a.value || 0), 0);
+
+  // Aggiorno titoli sezioni con totali
+  const myTitleEl = document.querySelector('#view-accounts .section:first-child .section-title');
+  const papaTitleEl = document.querySelector('#papaSection .section-title');
+  if(myTitleEl) myTitleEl.innerHTML = `👤 I miei conti <span style="color:var(--gold);text-transform:none;letter-spacing:0;font-weight:700;float:right">${euro(myTotal, true)}</span>`;
+  if(papaTitleEl) papaTitleEl.innerHTML = `👨 Gestiti da papà <span style="color:var(--gold);text-transform:none;letter-spacing:0;font-weight:700;float:right">${euro(papaTotal, true)}</span>`;
 
   const renderList = (accounts, listId) => {
     const list = document.getElementById(listId);
@@ -3404,6 +3588,9 @@ function renderTrade(){
       </div>
     `;
   }).join('');
+
+  // Calendario heatmap
+  renderTradeCalendar();
 }
 
 function renderBias(){
@@ -3557,27 +3744,22 @@ function saveTx(){
       toast('Movimento aggiornato');
     }
   } else {
-    if(account === 'intesa_cc' || account === 'intesa_salvadanaio'){
-      // Aggiunge a transactions (storia)
-      state.transactions.push({id: genId(), date, amount: signedAmount, category, desc, account});
-    } else {
-      // Altri conti: salva in cashOverride invece
-      if(!state.cashOverride) state.cashOverride = {};
-      const accountMap = {fineco: 'fineco_trading', revolut: 'revolut_saldo', poste_libretto: 'poste_libretto'};
-      const key = accountMap[account];
-      if(key){
-        const cur = state.cashOverride[key] !== undefined ? state.cashOverride[key] : (CASH_BALANCES[key] || 0);
-        state.cashOverride[key] = cur + signedAmount;
-      }
-    }
+    // Aggiungo SEMPRE a transactions (storia visibile in "Ultimi movimenti")
+    state.transactions.push({id: genId(), date, amount: signedAmount, category, desc, account});
+
+    // Per conti non-Intesa: il saldo viene aggiornato automaticamente
+    // tramite getLiveBalances() che legge le transazioni con account=fineco/revolut/etc
+    // Niente da fare qui
     toast(`Movimento ${type === 'entrata' ? '+' : '-'}${euro(Math.abs(amount))}`);
   }
 
   saveState();
   closeModal('modalTx');
-  if(currentTab === 'today') renderToday();
-  else if(currentTab === 'accounts') renderAccounts();
-  else if(currentTab === 'trade') renderTrade();
+  // Re-render TUTTO per essere sicuri che ogni vista mostri i nuovi dati
+  renderToday();
+  renderAccounts();
+  renderTrade();
+  renderSubscriptions();
 }
 
 // === PRIVACY ===
@@ -3699,39 +3881,270 @@ async function updateETFPrices(){
 }
 
 // === ABBONAMENTI ===
+let editingSubIdx = null;
+
 function addSubscription(){
-  const nome = prompt('Nome abbonamento:');
-  if(!nome) return;
-  const importo = parseFloat(prompt('Importo €/mese:'));
-  if(isNaN(importo)) return;
-  const freq = prompt('Frequenza (mensile/annuale):', 'mensile');
-  if(!freq) return;
-  state.abbonamenti.push({nome, importo, frequenza: freq, giorno: 1, note: ''});
-  saveState();
-  renderSubscriptions();
-  toast('Abbonamento aggiunto');
+  editingSubIdx = null;
+  document.getElementById('modalSubTitle').textContent = 'Nuovo abbonamento';
+  document.getElementById('subNome').value = '';
+  document.getElementById('subImporto').value = '';
+  document.getElementById('subFreq').value = 'mensile';
+  document.getElementById('subNote').value = '';
+  document.getElementById('subDeleteBtn').style.display = 'none';
+  document.getElementById('modalSub').classList.add('open');
+  setTimeout(() => document.getElementById('subNome').focus(), 300);
 }
 
 function editSubscription(idx){
   const s = state.abbonamenti[idx];
   if(!s) return;
-  const action = prompt(`${s.nome} (${euro(s.importo)}/${s.frequenza})\n\nDigita: edit, delete, o cancel`, 'edit');
-  if(action === 'delete'){
-    if(confirm(`Eliminare ${s.nome}?`)){
-      state.abbonamenti.splice(idx, 1);
-      saveState();
-      renderSubscriptions();
-      toast('Eliminato');
-    }
-  } else if(action === 'edit'){
-    const nome = prompt('Nome:', s.nome) || s.nome;
-    const importo = parseFloat(prompt('Importo:', s.importo)) || s.importo;
-    const freq = prompt('Frequenza:', s.frequenza) || s.frequenza;
-    state.abbonamenti[idx] = {...s, nome, importo, frequenza: freq};
-    saveState();
-    renderSubscriptions();
-    toast('Aggiornato');
+  editingSubIdx = idx;
+  document.getElementById('modalSubTitle').textContent = 'Modifica abbonamento';
+  document.getElementById('subNome').value = s.nome || '';
+  document.getElementById('subImporto').value = s.importo || 0;
+  document.getElementById('subFreq').value = s.frequenza || 'mensile';
+  document.getElementById('subNote').value = s.note || '';
+  document.getElementById('subDeleteBtn').style.display = 'block';
+  document.getElementById('modalSub').classList.add('open');
+}
+
+function saveSubFromModal(){
+  const nome = document.getElementById('subNome').value.trim();
+  const importo = parseFloat(document.getElementById('subImporto').value);
+  const freq = document.getElementById('subFreq').value;
+  const note = document.getElementById('subNote').value.trim();
+
+  if(!nome) return toast('Nome obbligatorio');
+  if(isNaN(importo) || importo < 0) return toast('Importo non valido');
+
+  if(editingSubIdx !== null){
+    const s = state.abbonamenti[editingSubIdx];
+    state.abbonamenti[editingSubIdx] = {...s, nome, importo, frequenza: freq, note};
+    toast('Abbonamento aggiornato');
+  } else {
+    state.abbonamenti.push({nome, importo, frequenza: freq, giorno: 1, note});
+    toast('Abbonamento aggiunto');
   }
+  saveState();
+  closeModal('modalSub');
+  renderSubscriptions();
+}
+
+function deleteSubFromModal(){
+  if(editingSubIdx === null) return;
+  const s = state.abbonamenti[editingSubIdx];
+  if(!confirm(`Eliminare "${s.nome}"?`)) return;
+  state.abbonamenti.splice(editingSubIdx, 1);
+  saveState();
+  closeModal('modalSub');
+  renderSubscriptions();
+  toast('Abbonamento eliminato');
+}
+
+// === GRAFICO PATRIMONIO ULTIMI 30 GIORNI ===
+function renderPatrimonioChart(){
+  const canvas = document.getElementById('patrimonioChart');
+  if(!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const dpr = window.devicePixelRatio || 1;
+  const W = canvas.offsetWidth;
+  const H = 160;
+  canvas.width = W * dpr;
+  canvas.height = H * dpr;
+  ctx.scale(dpr, dpr);
+
+  // Calcolo patrimonio per gli ultimi 30 giorni basato su transazioni
+  const today = new Date();
+  const days = 30;
+  const series = [];
+  const cashNow = getLiveBalances();
+  const totalNow = getTotalPatrimonio();
+
+  // Vado all'indietro: per ogni giorno, sottraggo le transazioni successive
+  let runningTotal = totalNow;
+  series.push({date: today.toISOString().slice(0,10), value: totalNow});
+  for(let i = 1; i < days; i++){
+    const d = new Date(today);
+    d.setDate(today.getDate() - i);
+    const dStr = d.toISOString().slice(0,10);
+    // Sottrai transazioni di quel giorno (vado indietro)
+    const dayTx = state.transactions.filter(t => t.date === series[0].date);
+    // Semplificazione: assumiamo movimenti netti del giorno
+    // Per ora linea piatta + variazioni dai trade forex
+    const dayTrades = state.forexTrades.filter(t => t.date === dStr);
+    const dayPnl = dayTrades.reduce((s,t) => s + (t.amount || 0), 0);
+    runningTotal -= dayPnl;
+    series.unshift({date: dStr, value: runningTotal});
+  }
+
+  // Disegna
+  ctx.fillStyle = '#14141a';
+  ctx.fillRect(0, 0, W, H);
+
+  if(series.length < 2) return;
+  const values = series.map(s => s.value);
+  const min = Math.min(...values);
+  const max = Math.max(...values);
+  const range = max - min || 1;
+  const padX = 8, padY = 12;
+  const w = W - padX*2;
+  const h = H - padY*2;
+
+  // Griglia orizzontale leggera
+  ctx.strokeStyle = 'rgba(255,255,255,0.06)';
+  ctx.lineWidth = 1;
+  for(let i = 0; i <= 3; i++){
+    const y = padY + (h/3)*i;
+    ctx.beginPath();
+    ctx.moveTo(padX, y);
+    ctx.lineTo(W - padX, y);
+    ctx.stroke();
+  }
+
+  // Linea + area sotto
+  ctx.beginPath();
+  series.forEach((p, i) => {
+    const x = padX + (w/(series.length-1))*i;
+    const y = padY + h - ((p.value - min)/range)*h;
+    if(i === 0) ctx.moveTo(x, y);
+    else ctx.lineTo(x, y);
+  });
+  // Area
+  const lastX = padX + w;
+  ctx.lineTo(lastX, padY + h);
+  ctx.lineTo(padX, padY + h);
+  ctx.closePath();
+  const grad = ctx.createLinearGradient(0, padY, 0, padY+h);
+  grad.addColorStop(0, 'rgba(212,175,55,0.3)');
+  grad.addColorStop(1, 'rgba(212,175,55,0)');
+  ctx.fillStyle = grad;
+  ctx.fill();
+
+  // Linea sopra
+  ctx.beginPath();
+  series.forEach((p, i) => {
+    const x = padX + (w/(series.length-1))*i;
+    const y = padY + h - ((p.value - min)/range)*h;
+    if(i === 0) ctx.moveTo(x, y);
+    else ctx.lineTo(x, y);
+  });
+  ctx.strokeStyle = '#d4af37';
+  ctx.lineWidth = 2;
+  ctx.stroke();
+
+  // Punto finale
+  const lastVal = series[series.length-1];
+  const lx = padX + w;
+  const ly = padY + h - ((lastVal.value - min)/range)*h;
+  ctx.fillStyle = '#d4af37';
+  ctx.beginPath();
+  ctx.arc(lx, ly, 4, 0, Math.PI*2);
+  ctx.fill();
+
+  // Labels date
+  const startDate = new Date(series[0].date);
+  document.getElementById('chartStartLabel').textContent = startDate.toLocaleDateString('it-IT', {day:'numeric',month:'short'});
+  document.getElementById('chartEndLabel').textContent = 'Oggi';
+}
+
+// === HEATMAP CALENDARIO FOREX ===
+let calMonth = new Date();
+calMonth.setDate(1);
+
+function changeCalMonth(delta){
+  calMonth.setMonth(calMonth.getMonth() + delta);
+  renderTradeCalendar();
+}
+
+function renderTradeCalendar(){
+  const grid = document.getElementById('calendarGrid');
+  if(!grid) return;
+  const year = calMonth.getFullYear();
+  const month = calMonth.getMonth();
+  const firstDay = new Date(year, month, 1);
+  const lastDay = new Date(year, month+1, 0);
+  const daysInMonth = lastDay.getDate();
+  // Lunedì = 0
+  const firstWeekday = (firstDay.getDay() + 6) % 7;
+
+  // Trade del mese
+  const monthTrades = state.forexTrades.filter(t => {
+    const d = new Date(t.date);
+    return d.getFullYear() === year && d.getMonth() === month && t.type === 'trade';
+  });
+
+  // Aggrego per giorno
+  const byDay = {};
+  monthTrades.forEach(t => {
+    const day = parseInt(t.date.slice(8,10));
+    if(!byDay[day]) byDay[day] = {pnl: 0, count: 0, wins: 0, losses: 0};
+    byDay[day].pnl += t.amount || 0;
+    byDay[day].count++;
+    if(t.outcome === 'win') byDay[day].wins++;
+    else if(t.outcome === 'loss') byDay[day].losses++;
+  });
+
+  // Build grid
+  let html = '';
+  // Spazi vuoti prima primo giorno
+  for(let i = 0; i < firstWeekday; i++){
+    html += '<div></div>';
+  }
+  const today = new Date();
+  const isCurrentMonth = today.getFullYear() === year && today.getMonth() === month;
+  for(let day = 1; day <= daysInMonth; day++){
+    const data = byDay[day];
+    let bg = 'var(--bg-soft)';
+    let color = 'var(--text-muted)';
+    let title = '';
+    let dot = '';
+    if(data){
+      if(data.pnl > 0){
+        bg = 'rgba(16,185,129,0.25)';
+        color = '#10b981';
+        dot = '🟢';
+      } else if(data.pnl < 0){
+        bg = 'rgba(239,68,68,0.25)';
+        color = '#ef4444';
+        dot = '🔴';
+      } else {
+        bg = 'var(--bg-soft)';
+        color = 'var(--text-dim)';
+      }
+      title = `${day}: ${data.count} trade · ${data.pnl >= 0 ? '+' : ''}€${data.pnl.toFixed(2)}`;
+    }
+    const isToday = isCurrentMonth && today.getDate() === day;
+    const border = isToday ? '2px solid var(--gold)' : '1px solid var(--border)';
+    html += `<div title="${title}" style="aspect-ratio:1;background:${bg};border:${border};border-radius:6px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:11px;color:${color};font-weight:${data ? '700' : '400'};cursor:${data ? 'pointer' : 'default'}" ${data ? `onclick="showDayTrades('${year}-${String(month+1).padStart(2,'0')}-${String(day).padStart(2,'0')}')"` : ''}>
+      <span>${day}</span>
+      ${data ? `<span style="font-size:8px;line-height:1">${data.pnl >= 0 ? '+' : ''}${data.pnl.toFixed(0)}</span>` : ''}
+    </div>`;
+  }
+  grid.innerHTML = html;
+
+  // Title
+  const monthNames = ['Gennaio','Febbraio','Marzo','Aprile','Maggio','Giugno','Luglio','Agosto','Settembre','Ottobre','Novembre','Dicembre'];
+  document.getElementById('calMonthTitle').textContent = monthNames[month] + ' ' + year;
+  document.getElementById('calMonthLabel').textContent = monthNames[month] + ' ' + year;
+
+  // Summary
+  const totalPnl = monthTrades.reduce((s,t) => s + (t.amount || 0), 0);
+  const wins = monthTrades.filter(t => t.outcome === 'win').length;
+  const losses = monthTrades.filter(t => t.outcome === 'loss').length;
+  const summary = monthTrades.length > 0
+    ? `${monthTrades.length} trade · ${wins}W ${losses}L · ${totalPnl >= 0 ? '+' : ''}€${totalPnl.toFixed(0)}`
+    : 'Nessun trade';
+  document.getElementById('calMonthSummary').textContent = summary;
+}
+
+function showDayTrades(dateStr){
+  const trades = state.forexTrades.filter(t => t.date === dateStr && t.type === 'trade');
+  if(!trades.length) return;
+  const lines = trades.map(t => {
+    const sign = (t.amount || 0) >= 0 ? '+' : '';
+    return `${t.outcome === 'win' ? '✅' : '❌'} ${sign}€${(t.amount || 0).toFixed(2)} — ${t.notes || t.instrument}`;
+  }).join('\n');
+  alert(`Trade del ${dateStr}:\n\n${lines}`);
 }
 
 // === FIREBASE ===
@@ -3836,7 +4249,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Click su sfondo modal per chiudere
-['modalTx', 'modalMenu', 'modalBalances'].forEach(id => {
+['modalTx', 'modalMenu', 'modalBalances', 'modalSub'].forEach(id => {
   document.getElementById(id).addEventListener('click', e => {
     if(e.target.id === id) closeModal(id);
   });
