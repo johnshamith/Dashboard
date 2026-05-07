@@ -87,7 +87,7 @@ html, body { background: var(--bg); color: var(--text); font-family: -apple-syst
 .icon-btn:hover { background: var(--bg-card); border-color: var(--border-hover); }
 
 /* === MAIN === */
-.main { max-width: 720px; margin: 0 auto; padding: 16px; padding-bottom: 100px; }
+.main { max-width: 720px; margin: 0 auto; padding: 16px; padding-bottom: 120px; padding-bottom: calc(100px + env(safe-area-inset-bottom)); }
 
 /* === LAYOUT PC LARGO (>= 1024px) === */
 @media (min-width: 1024px) {
@@ -347,6 +347,11 @@ html, body { background: var(--bg); color: var(--text); font-family: -apple-syst
 @supports (bottom: env(safe-area-inset-bottom)) {
   .fab { bottom: calc(88px + env(safe-area-inset-bottom)); }
 }
+/* Forza FAB sempre visibile su iOS */
+.fab {
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+}
 .fab:active { transform: scale(0.94); }
 
 /* === TABS BOTTOM === */
@@ -355,13 +360,18 @@ html, body { background: var(--bg); color: var(--text); font-family: -apple-syst
   bottom: 0;
   left: 0;
   right: 0;
-  background: rgba(10,10,12,0.95);
+  background: rgba(10, 10, 12, 0.98);
+  -webkit-backdrop-filter: blur(20px);
   backdrop-filter: blur(20px);
   border-top: 1px solid var(--border);
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  z-index: 40;
+  z-index: 100;
   padding: 8px 0 max(8px, env(safe-area-inset-bottom));
+  /* Forza la barra a stare sempre in posizione su iOS Safari */
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  will-change: transform;
 }
 .tab {
   background: none;
@@ -870,6 +880,7 @@ html, body { background: var(--bg); color: var(--text); font-family: -apple-syst
       </div>
       <div class="btn-row">
         <button class="btn" onclick="closeModal('modalTx')" style="flex:1">Annulla</button>
+        <button class="btn" id="txDeleteBtn" onclick="deleteTx()" style="flex:1; display:none; background:rgba(239,68,68,0.15); color:var(--red); border-color:rgba(239,68,68,0.3)">🗑️ Elimina</button>
         <button class="btn btn-primary" onclick="saveTx()" style="flex:1">Salva</button>
       </div>
     </div>
@@ -3805,6 +3816,7 @@ function openTxModal(){
   document.getElementById('txAmount').value = '';
   document.getElementById('txCategory').value = 'cibo';
   document.getElementById('txDesc').value = '';
+  document.getElementById('txDeleteBtn').style.display = 'none';
   document.getElementById('modalTx').classList.add('open');
   setTimeout(() => document.getElementById('txAmount').focus(), 300);
 }
@@ -3820,7 +3832,42 @@ function editTx(id){
   document.getElementById('txAmount').value = Math.abs(tx.amount);
   document.getElementById('txCategory').value = tx.category || 'altro';
   document.getElementById('txDesc').value = tx.desc || '';
+  document.getElementById('txDeleteBtn').style.display = 'block';
   document.getElementById('modalTx').classList.add('open');
+}
+
+function deleteTx(){
+  if(!editingTxId) return;
+  const tx = state.transactions.find(t => t.id === editingTxId);
+  if(!tx) return;
+  if(!confirm(`Eliminare "${tx.desc}" (${tx.amount >= 0 ? '+' : ''}€${tx.amount.toFixed(2)})?`)) return;
+
+  // Rimuovi dalla lista
+  state.transactions = state.transactions.filter(t => t.id !== editingTxId);
+
+  // Se era movimento su Fineco/Revolut/Poste, devo anche aggiornare cashOverride per rimuovere l'effetto
+  if(tx.account && tx.account !== 'intesa_cc' && tx.account !== 'intesa_salvadanaio'){
+    if(state.cashOverride){
+      const accountMap = {fineco: 'fineco_trading', revolut: 'revolut_saldo', poste_libretto: 'poste_libretto'};
+      const key = accountMap[tx.account];
+      if(key && state.cashOverride[key] !== undefined){
+        // Sottraggo l'importo (annullo l'effetto del movimento)
+        state.cashOverride[key] -= tx.amount;
+      }
+    }
+  }
+
+  saveState();
+  if(typeof firebaseSyncNow === 'function') firebaseSyncNow();
+  closeModal('modalTx');
+  toast('Movimento eliminato');
+
+  // Re-render tutto
+  renderToday();
+  renderAccounts();
+  renderTrade();
+  renderSubscriptions();
+  renderGoals();
 }
 
 function saveTx(){
